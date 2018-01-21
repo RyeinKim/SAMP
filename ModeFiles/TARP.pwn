@@ -23,13 +23,13 @@
 #define MAX_BARRIER 50
 #define BarrierDistance 4.0
 #define BARRIER_INDEX 9
-#define FREEZE_SECONDS 5 // 핵사냥
+#define FREEZE_SECONDS 5
 #define SetCheckpoint(%0,%1,%2,%3,%4) 	Checkpoint[%0]=1;SetPlayerCheckpoint(%0,%1,%2,%3,%4)
 new VarName[MAX_VARS][100];
 new VarLoading;
 new HicarBank = 0;
 new HicarBank2 = 0;
-#define SCRIPT_VERSION "　TAL:RP 1.0　" //모드이름 만지지말것.
+#define SCRIPT_VERSION "　TA:RP 1.0　"
 #define MAX_HAVE_ACCESSORIES 15
 #define M_P 100
 
@@ -157,7 +157,7 @@ new passobject[4],passwordgate;
 #define MAX_TRUNK 21
 #define MAX_TUNING 14
 
-#define MAX_SELLLIST 5 //사업판매아이템 원래 10임.
+#define MAX_SELLLIST 5
 
 #define COLOR_INFO 0xFFFFFFAA
 #define COLOR_CMD 0xDDDD23AA
@@ -239,7 +239,7 @@ forward AnimBarrier();
 #define COLOR_BLUE 0x2641FEAA
 #define COLOR_DARKNICERED 0x9D000096
 #define COLOR_LIGHT_BLUE 0x9FB1EEAA
-#define COLOR_SERVER 0xF64D69AA//주황색
+#define COLOR_SERVER 0xF64D69AA
 #define GREEN 0x21DD00FF
 #define RED 0xE60000FF
 #define YELLOW 0xFFFF00FF
