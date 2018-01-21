@@ -1,10 +1,12 @@
+/*==================================================================================*/
+/*                              Made By. Leehi                                      */
+/*==================================================================================*/
 #include <a_samp>
-
 #if defined FILTERSCRIPT
 
 public OnPlayerCommandText(playerid, cmdtext[])
 {
-	if(strcmp("/»Ô",cmdtext,true,10)==0)
+	if(strcmp("/horn",cmdtext,true,10)==0)
 	{
 		new Vehicle = GetPlayerVehicleID(playerid);
 		SetPVarInt(playerid, "Status", 1);

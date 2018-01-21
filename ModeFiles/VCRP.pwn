@@ -1,4 +1,7 @@
-#include <Leehi>
+/*==================================================================================*/
+/*                              Made By. Leehi                                      */
+/*==================================================================================*/
+#include <LilyJack>
 //==============================================================================
 #define PRESSED(%0) \
 	(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
@@ -14,7 +17,7 @@
 #define BARRIER_INDEX 9
 #define FREEZE_SECONDS 5
 #define SetCheckpoint(%0,%1,%2,%3,%4) 	Checkpoint[%0]=1;SetPlayerCheckpoint(%0,%1,%2,%3,%4)
-#define SCRIPT_VERSION "UN:RP 1.0"
+#define SCRIPT_VERSION "US:RP 1.0"
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 #define AP	for(new j = 0; j < connect; j++)//
 #define mp 100
@@ -41,7 +44,7 @@ new connectPlayer[MAX_PLAYERS] = {-1, ...}, connect;
 #define MAX_PBOXES      2
 #define MAX_POS 200
 #define MAX_BOXSLOTS    3
-#define MAX_HAVE_CAR 8
+#define MAX_HAVE_CAR 4
 #define MAX_HOUSES 500
 #define MAX_FACTIONS 200
 #define MAX_SIREN 5
@@ -111,15 +114,12 @@ new connectPlayer[MAX_PLAYERS] = {-1, ...}, connect;
 #define DIALOG_52 5500
 #define DIALOG_53 5600
 #define DIALOG_54 5700
-#define DIALOG_55 5800
 #define DIALOG_VARLIST	    3700
 #define DIALOG_DELVAR       3800
 #define DIALOG_SETVAR       3900
-#define DIALOG_CAR_BUY      4000
 //==============================================================================
 #pragma dynamic 999999
 #pragma tabsize 0
-#define WEAPON_HACK 46
 //==============================================================================
 #define C_WHITE "{FFFFFF}"
 #define C_RED "{CC0033}"
@@ -384,9 +384,6 @@ new HicarBank2 = 0;
 new smtest[M_P];
 new TakeDamge[M_P];
 new Security = 0;
-new SCAR[20];
-new bool:WeaponHack[MAX_PLAYERS][WEAPON_HACK];
-new	g_VehTime[MAX_PLAYERS];
 //==============================================================================
 forward CProxDetector(Float:radi, playerid, string[],col1,col2,col3,col4,col5);
 forward PlaySiren(carid,sirenurl[]);
@@ -1428,7 +1425,7 @@ new CarParkPickup[MAX_CARPARK];
 
 new UpdateList[][] =
 {
-"Univesal Role Play Game을 시작하신것을 축하합니다 !",
+"United States Role Play Game을 시작하신것을 축하합니다 !",
 "",
 "아래 메세지들은 간단하게 추려 써놓은것 입니다. 자세한 내용은 카페가서 확인해주세요.",
 "",
@@ -3454,8 +3451,7 @@ enum pInfo
 	pBanDate[256],
 	pBanAdmin[256],
 	pBanReason[256],
-	pChingchan,
-	pAttach
+	pChingchan
 };
 new PlayerInfo[M_P][pInfo];
 new PlayerCarKey[M_P][MAX_HAVE_CAR][256];
@@ -4238,7 +4234,7 @@ stock ItemName(itemid)
 
 main()
 {
-	print("     Copyright ⓒ Univesal Role Playing Game Server, All Right Reserved.  ");
+	print("     Copyright ⓒ United States Role Playing Game Server, All Right Reserved.  ");
 }
 
 public CheckPassword(playerid, password[])
@@ -4758,12 +4754,6 @@ public IsABoat(vehicleid)
 
 public OnPlayerConnect(playerid)
 {
-	/*====================무기핵=======================*/
-	for(new w = 1; w < WEAPON_HACK; w++)
-	{
-		WeaponHack[playerid][w] = false;
-	}
-	/*=================================================*/
     DartText[playerid][0] = TextDrawCreate(311.000000,168.000000,"0");
 	TextDrawAlignment(DartText[playerid][0],0);
 	TextDrawBackgroundColor(DartText[playerid][0],0x000000ff);
@@ -4810,105 +4800,6 @@ public OnPlayerConnect(playerid)
 	GetPlayerName(playerid,pData[playerid][pRCName],MAX_PLAYER_NAME);
 	format(pData[playerid][pRcFile],MAX_PLAYER_NAME+3,"rclist/%s.rc",pData[playerid][pRCName]);
  	#endif
- 	
- 	//렌트카
- 	RemoveBuildingForPlayer(playerid, 4832, 1610.7969, -2285.8359, 52.7500, 0.25);
-	RemoveBuildingForPlayer(playerid, 4948, 1610.7969, -2285.8359, 52.7500, 0.25);
-	RemoveBuildingForPlayer(playerid, 712, 1619.5078, -2267.2031, 20.1797, 0.25);
-	RemoveBuildingForPlayer(playerid, 712, 1619.5078, -2305.8125, 20.1797, 0.25);
-	RemoveBuildingForPlayer(playerid, 4992, 1654.5391, -2286.8047, 13.3203, 0.25);
-	RemoveBuildingForPlayer(playerid, 1290, 1560.1953, -2341.6406, 18.7188, 0.25);
-	RemoveBuildingForPlayer(playerid, 712, 1534.2344, -2273.9375, 21.6484, 0.25);
-	RemoveBuildingForPlayer(playerid, 712, 1533.6406, -2301.7188, 21.6484, 0.25);
-	RemoveBuildingForPlayer(playerid, 1226, 1560.1016, -2290.7969, 16.2422, 0.25);
-	RemoveBuildingForPlayer(playerid, 1290, 1560.9375, -2306.2813, 18.7188, 0.25);
-	RemoveBuildingForPlayer(playerid, 1226, 1570.6797, -2323.4219, 16.3125, 0.25);
-
- 	//차량판매소
- 	RemoveBuildingForPlayer(playerid, 4049, 1330.3750, -1793.0781, 22.9688, 0.25);
-	RemoveBuildingForPlayer(playerid, 4194, 1360.3828, -1840.6172, 26.8047, 0.25);
-	RemoveBuildingForPlayer(playerid, 4219, 1330.3281, -1792.5938, 23.4922, 0.25);
-	RemoveBuildingForPlayer(playerid, 4226, 1359.2813, -1796.4688, 24.3438, 0.25);
-	RemoveBuildingForPlayer(playerid, 1283, 1388.3906, -1855.6719, 15.6250, 0.25);
-	RemoveBuildingForPlayer(playerid, 4193, 1360.3828, -1840.6172, 26.8047, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1340.8906, -1835.3672, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1340.1328, -1835.0391, 12.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1340.8672, -1834.4844, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1294, 1385.2422, -1833.2656, 16.9063, 0.25);
-	RemoveBuildingForPlayer(playerid, 1265, 1336.8750, -1818.2266, 12.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 1372, 1336.7891, -1816.3047, 12.6641, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.1250, -1816.5781, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1338.0781, -1815.7578, 12.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.8984, -1816.1641, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1342.2734, -1806.2031, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1342.6328, -1807.0391, 12.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1221, 1342.5156, -1805.0703, 12.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 4231, 1342.0547, -1800.2188, 25.4297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.9531, -1796.4297, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 4023, 1359.2813, -1796.4688, 24.3438, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1338.9609, -1796.0000, 13.6641, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.9375, -1795.4609, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 4112, 1330.3750, -1793.0781, 22.9688, 0.25);
-	RemoveBuildingForPlayer(playerid, 1221, 1338.9688, -1793.7266, 12.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 1372, 1337.6953, -1774.7344, 12.6641, 0.25);
-	RemoveBuildingForPlayer(playerid, 1265, 1338.7891, -1775.3203, 12.9688, 0.25);
-	RemoveBuildingForPlayer(playerid, 1265, 1337.0078, -1773.8672, 13.0000, 0.25);
-
-	// 차량 판매소 삭제//
-
-	//주유소//
-
-	RemoveBuildingForPlayer(playerid, 4049, 1330.3750, -1793.0781, 22.9688, 0.25);
-	RemoveBuildingForPlayer(playerid, 4194, 1360.3828, -1840.6172, 26.8047, 0.25);
-	RemoveBuildingForPlayer(playerid, 4219, 1330.3281, -1792.5938, 23.4922, 0.25);
-	RemoveBuildingForPlayer(playerid, 4226, 1359.2813, -1796.4688, 24.3438, 0.25);
-	RemoveBuildingForPlayer(playerid, 1283, 1388.3906, -1855.6719, 15.6250, 0.25);
-	RemoveBuildingForPlayer(playerid, 4193, 1360.3828, -1840.6172, 26.8047, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1340.8906, -1835.3672, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1340.1328, -1835.0391, 12.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1340.8672, -1834.4844, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1294, 1385.2422, -1833.2656, 16.9063, 0.25);
-	RemoveBuildingForPlayer(playerid, 1265, 1336.8750, -1818.2266, 12.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 1372, 1336.7891, -1816.3047, 12.6641, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.1250, -1816.5781, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1338.0781, -1815.7578, 12.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.8984, -1816.1641, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1342.2734, -1806.2031, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1342.6328, -1807.0391, 12.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1221, 1342.5156, -1805.0703, 12.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 4231, 1342.0547, -1800.2188, 25.4297, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.9531, -1796.4297, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 4023, 1359.2813, -1796.4688, 24.3438, 0.25);
-	RemoveBuildingForPlayer(playerid, 1230, 1338.9609, -1796.0000, 13.6641, 0.25);
-	RemoveBuildingForPlayer(playerid, 1220, 1338.9375, -1795.4609, 12.9297, 0.25);
-	RemoveBuildingForPlayer(playerid, 4112, 1330.3750, -1793.0781, 22.9688, 0.25);
-	RemoveBuildingForPlayer(playerid, 1221, 1338.9688, -1793.7266, 12.9844, 0.25);
-	RemoveBuildingForPlayer(playerid, 1372, 1337.6953, -1774.7344, 12.6641, 0.25);
-	RemoveBuildingForPlayer(playerid, 1265, 1338.7891, -1775.3203, 12.9688, 0.25);
-	RemoveBuildingForPlayer(playerid, 1265, 1337.0078, -1773.8672, 13.0000, 0.25);
-	RemoveBuildingForPlayer(playerid, 5535, 1918.8516, -1776.3281, 16.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 5536, 1866.3281, -1789.7813, 20.9453, 0.25);
-	RemoveBuildingForPlayer(playerid, 1524, 1910.1641, -1779.6641, 18.7500, 0.25);
-	RemoveBuildingForPlayer(playerid, 1308, 1904.0703, -1797.5313, 12.7031, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1917.3203, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1912.0547, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1906.7734, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1927.8516, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1922.5859, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1938.3906, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1933.1250, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 5397, 1866.3281, -1789.7813, 20.9453, 0.25);
-	RemoveBuildingForPlayer(playerid, 5681, 1921.4844, -1778.9141, 18.5781, 0.25);
-	RemoveBuildingForPlayer(playerid, 5409, 1918.8516, -1776.3281, 16.9766, 0.25);
-	RemoveBuildingForPlayer(playerid, 1676, 1941.6563, -1778.4531, 14.1406, 0.25);
-	RemoveBuildingForPlayer(playerid, 1676, 1941.6563, -1774.3125, 14.1406, 0.25);
-	RemoveBuildingForPlayer(playerid, 1226, 1900.8047, -1756.5156, 16.3594, 0.25);
-	RemoveBuildingForPlayer(playerid, 955, 1928.7344, -1772.4453, 12.9453, 0.25);
-	RemoveBuildingForPlayer(playerid, 1676, 1941.6563, -1771.3438, 14.1406, 0.25);
-	RemoveBuildingForPlayer(playerid, 1676, 1941.6563, -1767.2891, 14.1406, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1948.9844, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1412, 1943.6875, -1797.4219, 13.8125, 0.25);
-	RemoveBuildingForPlayer(playerid, 1283, 1930.3750, -1753.1016, 15.5938, 0.25);
  	//시청
  	RemoveBuildingForPlayer(playerid, 4024, 1479.8672, -1790.3984, 56.0234, 0.25);
 	RemoveBuildingForPlayer(playerid, 4044, 1481.1875, -1785.0703, 22.3828, 0.25);
@@ -6650,26 +6541,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 			CarInfo[vehicleid][cGas] = 9999999999;
 		}
 	}
-	
-	if (newstate == PLAYER_STATE_DRIVER && oldstate == PLAYER_STATE_ONFOOT)
-	{
-	    new vid = GetPlayerVehicleID(playerid);
-		if (vid == SCAR[0])
-		{
-		    format(string, sizeof(string), "차량 이름 : %s\n차량 가격 : %d\n 구매 하시겠습니까?", VehicleName[GetVehicleModel(vehicleid) - 400], 0);
-			ShowPlayerDialog(playerid, DIALOG_CAR_BUY, DIALOG_STYLE_MSGBOX, "CAR BUY", string, "예", "아니요");
-		}
-		else if (vid == SCAR[1])
-		{
-		    format(string, sizeof(string), "차량 이름 : %s\n차량 가격 : %d\n 구매 하시겠습니까?", VehicleName[GetVehicleModel(vehicleid) - 529], 0);
-			ShowPlayerDialog(playerid, DIALOG_CAR_BUY, DIALOG_STYLE_MSGBOX, "CAR BUY", string, "예", "아니요");
-		}
-		else if (vid == SCAR[2])
-		{
-		    format(string, sizeof(string), "차량 이름 : %s\n차량 가격 : %d\n 구매 하시겠습니까?", VehicleName[GetVehicleModel(vehicleid) - 411], 0);
-			ShowPlayerDialog(playerid, DIALOG_CAR_BUY, DIALOG_STYLE_MSGBOX, "CAR BUY", string, "예", "아니요");
-		}
-	}
+
 	for(new z = 0, r = sizeof(ZoneInfo); z < r; z++)
 	{
 		if(PlayerInfo[playerid][pLevel] > 30)
@@ -6789,11 +6661,15 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 		}
 		else
 		{
-			if(PlayerInfo[playerid][pCarLic] < 1 && PlayerDrivingTest[playerid] == 0)
+			if(!IsRentCar(vehicleid))
 			{
-				if(FourSeat(vehicleid) || TwoSeat(vehicleid))
+				if(PlayerInfo[playerid][pCarLic] < 1 && PlayerDrivingTest[playerid] == 0)
 				{
-					SafeSendClientMessage(playerid,COLOR_GRAY, ""#C_YELLOW"< ☞ >"#C_WHITE" 당신은 운전 면허가 없습니다! 무면허는 범법 행위에 해당합니다!");
+					if(FourSeat(vehicleid) || TwoSeat(vehicleid))
+					{
+						SafeSendClientMessage(playerid,COLOR_GRAY, ""#C_YELLOW"< ☞ >"#C_WHITE" 당신은 아직 운전을 할줄 모릅니다. 차에서 내립니다.");
+		 				RemovePlayerFromVehicle(playerid);
+					}
 				}
 			}
 		}
@@ -7262,7 +7138,7 @@ public Timer3(playerid)
                 SetPlayerInterior(playerid,0);
                 TogglePlayerControllable(playerid, 1);
     	   		ApplyAnimation(playerid, "ped", "WALK_civi", 4.1, 1, 1, 0, 1, 0);
-				SCM(playerid,0x228b22AA, "____ 1/6 ____  Univesal Role Playing Game : RolePlay(역할연기)");
+				SCM(playerid,0x228b22AA, "____ 1/6 ____  United States Role Playing Game : RolePlay(역할연기)");
 				SCM(playerid,0xFFFFFFAA, "{CEF279}●{B2EBF4} 역할연기라는 단순하면서도 복잡한 장르의 게임입니다. 유저님께서는 실제와 같이 행동할 의무가 있고");
 				SCM(playerid,0xFFFFFFAA,"{CEF279}●{B2EBF4} 서버에서 정한 역할연기에 대한 규칙을 지키실 필요가 있습니다. 규칙을 지키지 않을 경우 처벌받을 수 있습니다.");
 				SCM(playerid,0xFFFFFFAA,"{CEF279}●{B2EBF4} Role Playing 이란, 역할연기로 실제와 같이 게임 캐릭터를 움직여야 합니다. 제 2의 가상세계라고 생각하시면");
@@ -7272,7 +7148,7 @@ public Timer3(playerid)
 			{
 
 				ClearChatbox(playerid, 50);
-				SCM(playerid, 0x228b22AA, "____ 2/6 ____  Univesal Role Playing Game : RolePlay : OOC and IC");
+				SCM(playerid, 0x228b22AA, "____ 2/6 ____  United States Role Playing Game : RolePlay : OOC and IC");
 				SCM(playerid, 0xFFFFFFAA,	 "{CEF279}●{B2EBF4} OOC는 Out Of Characters의 약자로 지금 게임을 즐기고 있는 나를 뜻하고, "#C_RED"현실"#C_WHITE"세계라고 합니다.");
 				SCM(playerid, 0xFFFFFFAA,	 "{CEF279}●{B2EBF4} IC는 In Characters의 약자로 게임 속 세계에서 자신의 가상 캐릭터의 스토리를 만들어 가는 것을 뜻하고, "#C_RED"가상"#C_WHITE"세계라고 합니다.");
 				SCM(playerid, 0xFFFFFFAA,	 "{CEF279}●{B2EBF4} OOC와 IC에는 각각 다르게 구별을 해야 하는 게임의 채팅 방법이 있습니다.");
@@ -7285,7 +7161,7 @@ public Timer3(playerid)
 			{
 			    TextDrawShowForPlayer(playerid,blackfade[playerid]);
 			    ClearChatbox(playerid, 50);
-				SCM(playerid,	0x228b22AA, "____ 3/6 ____  Univesal Role Playing Game : RolePlay : 행동과 상태");
+				SCM(playerid,	0x228b22AA, "____ 3/6 ____  United States Role Playing Game : RolePlay : 행동과 상태");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} 당신은 사람들과의 대화와 채팅으로만 이 도시에서 생활할 수는 없습니다.");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} 만약 상대방과 대화만 한다면, 당신은 식물인간이나 다름 없으니까요. 실제로 우리는 물을 마시거나, 식사를 하거나, 병에 걸립니다.");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} 물 마시기와 식사하기를 "#C_RED"행동"#C_WHITE" 그리고 감기를 "#C_RED"상태"#C_WHITE"라고 하죠.");
@@ -7305,7 +7181,7 @@ public Timer3(playerid)
                 TogglePlayerControllable(playerid, 1);
                 ApplyAnimation(playerid, "ped", "WALK_civi", 4.1, 1, 1, 0, 1, 0);
 				ClearChatbox(playerid, 50);
-				SCM(playerid,0x228b22AA, "____ 4/6 ____ Univesal Role Playing Game : RolePlay : 메타게이밍과 파워게이밍");
+				SCM(playerid,0x228b22AA, "____ 4/6 ____ United States Role Playing Game : RolePlay : 메타게이밍과 파워게이밍");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} "#C_RED"메타게이밍"#C_WHITE"이란 IC(가상세계)에서 "#C_RED"ㅋㅋ ㅎㅎ ㄷㄷ"#C_WHITE"등과 같은 실제로 발음할 수 없는 단어들을 IC상에서 사용하는 것을 말합니다.");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} "#C_RED"파워게이밍"#C_WHITE"이란 /me(행동명령어)와 /st(상태명령어)를 응용하여 남용하는 것을 말합니다.");
 				SCM(playerid, 0xFFFFFFAA,    "{CEF279}●{B2EBF4}								(메타게이밍과 파워게이밍의 사용 예시)");
@@ -7313,12 +7189,12 @@ public Timer3(playerid)
 				SCM(playerid, 0xFFFFFFAA,    "{CEF279}●{B2EBF4} 메타게이밍 예: “아, 오늘 뭔가 기분이 좋은걸 ㅋㅋ (IC 대화중에 ㅋㅋ등 채팅용어 사용 금지)");
 				new str[256];
    				format(str, sizeof(str), ""C_WHITE"튜토리얼이 약 30초 남았습니다.");
-				ShowPlayerDialog(playerid, DIALOG_41, DIALOG_STYLE_MSGBOX, ""#C_GREEN"[UN:RP] < 튜토리얼 >", str, "확인", "");
+				ShowPlayerDialog(playerid, DIALOG_41, DIALOG_STYLE_MSGBOX, ""#C_GREEN"[US:RP] < 튜토리얼 >", str, "확인", "");
 			}
 			else if(TutTime[playerid] == 60)
 			{
 				ClearChatbox(playerid, 50);
-				SCM(playerid,0x228b22AA, "____ 5/6 ____  Univesal Role Playing Game : RolePlay : 그 외의 규칙");
+				SCM(playerid,0x228b22AA, "____ 5/6 ____  United States Role Playing Game : RolePlay : 그 외의 규칙");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} 논알피(Non-RP): 'RP를 하지 않는다.' 라는 표현입니다.");
 				SCM(playerid, 0xFFFFFFAA,  "{CEF279}●{B2EBF4} 버닝합핑(토끼뜀): 'Shift' 를 연속적으로 눌러 캐릭터가 일반적으로 뛰는 속도보다 더 빠르게 이동하려고 하는 불법적인 행동");
 				SCM(playerid, 0xFFFFFFAA,   "{CEF279}●{B2EBF4} 사후기억: 죽은 후 자신을 죽인 사람을 찾아가 죽이는 RP는 불가능 합니다.");
@@ -7333,9 +7209,9 @@ public Timer3(playerid)
 				ClearChatbox(playerid, 10);
 				TogglePlayerControllable(playerid, 1);
 				ClearChatbox(playerid, 7);
-				SCM(playerid,0x228b22AA, "____ 6/6 ____  Univesal Role Playing Game : RolePlay : 튜토리얼 마침");
+				SCM(playerid,0x228b22AA, "____ 6/6 ____  United States Role Playing Game : RolePlay : 튜토리얼 마침");
 				SCM(playerid,0xFFFFFFAA, "{CEF279}●{B2EBF4} 당신은, 튜토리얼을 마쳤습니다.");
-				SCM(playerid,0xFFFFFFAA, "{CEF279}●{B2EBF4} Univesal Role Playing Game");
+				SCM(playerid,0xFFFFFFAA, "{CEF279}●{B2EBF4} United States Role Playing Game");
                 ClearChatbox(playerid, 7);
                 SetPlayerVirtualWorld(playerid, 0);
 				SafeSendClientMessage(playerid,COLOR_GRAY, ""#C_YELLOW"< ☞ >"#C_WHITE" 당신은 입국을 완료 했습니다.");
@@ -7931,6 +7807,7 @@ public OnGameModeExit()
 public OnGameModeInit()
 {
 	DartPlace = false;
+
 	room = CreateObject(14744,2496.1000976563,-1656,1043,0.0,0.0,90.0);
 	stfloor = CreateObject(3943,2495.6000976563,-1657.4000244141,1045.6999511719,0.0,0.0,0.0);
 	ndfloor = CreateObject(3943,2492.3000488281, -1661.3000488281, 1050.0999755859,0.0,0.0,90.0);
@@ -8070,7 +7947,7 @@ public OnGameModeInit()
 	TextDrawSetOutline(IntroTD[2], 0);
 	TextDrawFont(IntroTD[2], 1);
 
-	IntroTD[3] = TextDrawCreate(231.875000, 323.750518, "Univesal Role Play Game");
+	IntroTD[3] = TextDrawCreate(231.875000, 323.750518, "United States Role Play Game");
 	TextDrawLetterSize(IntroTD[3], 0.744997, 1.903331);
 	TextDrawAlignment(IntroTD[3], 1);
 	TextDrawColor(IntroTD[3], -1);
@@ -8167,7 +8044,7 @@ public OnGameModeInit()
     TextDrawTextSize(diemsg[1], 680.000000, -34.000000);
     TextDrawFont(diemsg[1], 0);
     
-	KillerTextdraw[0] = TextDrawCreate(384.54547119140625 ,211.29263305664062 , "Univesal");
+	KillerTextdraw[0] = TextDrawCreate(384.54547119140625 ,211.29263305664062 , "United States");
 	TextDrawFont(KillerTextdraw[0] , 1);
 	TextDrawLetterSize(KillerTextdraw[0] , 0.31, 2.072);
 	TextDrawColor(KillerTextdraw[0] , 0xff9100FF);
@@ -8295,11 +8172,7 @@ public OnGameModeInit()
 	AllowInteriorWeapons(1);
 	DisableInteriorEnterExits();
 	EnableStuntBonusForAll(0);
-	
-	SCAR[0] = AddStaticVehicleEx(400, 1015.5514, -1366.4191, 13.0053, 89.8805, 1, 1, 30000); // 차량판매소 차량
-	SCAR[1] = AddStaticVehicleEx(529,1015.5773,-1357.1389,13.0059,90.1810,1, 1, 30000);
-	SCAR[2] = AddStaticVehicleEx(411,1015.7988,-1346.1318,13.0060,90.0229,1, 1, 30000);
-	
+
 	JCAR[2][0] = AddStaticVehicleEx(532,-387.4058,-1476.6927,26.7035,265.6719,0,0,30000);
 	AddStaticVehicleEx(532,-382.8609,-1465.2964,26.7162,262.4081,0,0,30000);
 	AddStaticVehicleEx(532,-392.8095,-1487.2607,26.3314,268.0157,0,0,30000);
@@ -8372,7 +8245,7 @@ public OnGameModeInit()
 	CreateDynamicPickup(1277, 1, 1455.8306,-2248.0386,-22.4463);
 	Create3DTextLabel("F 키", 0xDABB3EFF, 415.1986,2533.7078,19.5484, 10.0, 0);
 	CreateDynamicPickup(1277, 1, 773.1969,14.4874,1000.6953);
-    Create3DTextLabel("/주유", 0xDABB3EFF, 1851.5834,-1787.8419,13.5612, 20.0, 0);
+    Create3DTextLabel("/주유", 0xDABB3EFF, 1937.1110,-1772.9862,13.3828, 20.0, 0);
 	CreateDynamicPickup(1239, 1, 1937.1110,-1772.9862,13.3828);
     Create3DTextLabel("/제품입고", 0xDABB3EFF, 867.3358,-1207.1252,17.4766, 10.0, 0);
 	CreateDynamicPickup(1277, 1, 867.3358,-1207.1252,16.9766);
@@ -8445,130 +8318,199 @@ public OnGameModeInit()
 	{
 		MoveObjectInfo[mo][moNumber] = CreateDynamicObject(MoveObjectInfo[mo][moModel], MoveObjectInfo[mo][moX], MoveObjectInfo[mo][moY], MoveObjectInfo[mo][moZ], MoveObjectInfo[mo][moRx], MoveObjectInfo[mo][moRy], MoveObjectInfo[mo][moRz], MoveObjectInfo[mo][moVirtualWorld]);
 	}
-
-	//렌트카
-	CreateDynamicObject(1683,1622.0000000,-2292.0000000,18.4000000,0.0000000,0.0000000,182.0000000); //object(ap_jumbo_01) (1)
-	CreateDynamicObject(2773,1597.7000000,-2293.5000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(cj_airprt_bar) (1)
-	CreateDynamicObject(2773,1597.7000000,-2296.2000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(cj_airprt_bar) (2)
-	CreateDynamicObject(2773,1597.7002000,-2298.8994000,13.0000000,0.0000000,0.0000000,0.0000000); //object(cj_airprt_bar) (3)
-	CreateDynamicObject(2773,1597.5000000,-2285.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(cj_airprt_bar) (4)
-	CreateDynamicObject(2773,1597.2000000,-2282.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(cj_airprt_bar) (5)
-	CreateDynamicObject(2773,1597.3000000,-2279.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(cj_airprt_bar) (6)
-	CreateDynamicObject(3511,1588.0000000,-2300.2998000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vgsn_nitree_b01) (1)
-	CreateDynamicObject(3511,1588.0000000,-2292.0000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vgsn_nitree_b01) (2)
-	CreateDynamicObject(3511,1588.2000000,-2282.0000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vgsn_nitree_b01) (3)
-	CreateDynamicObject(3511,1589.1000000,-2273.0000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vgsn_nitree_b01) (4)
-	CreateDynamicObject(1468,1640.4000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (1)
-	CreateDynamicObject(1468,1635.2000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (2)
-	CreateDynamicObject(1468,1630.0000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (3)
-	CreateDynamicObject(1468,1624.8000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (4)
-	CreateDynamicObject(1468,1619.6000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (5)
-	CreateDynamicObject(1468,1614.4000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (6)
-	CreateDynamicObject(1468,1609.2000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (7)
-	CreateDynamicObject(1468,1604.0000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (8)
-	CreateDynamicObject(1468,1598.8000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (9)
-	CreateDynamicObject(1468,1593.6000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (10)
-	CreateDynamicObject(1468,1588.4000000,-2309.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (11)
-	CreateDynamicObject(4641,1564.4000000,-2295.7000000,14.3000000,0.0000000,0.0000000,0.0000000); //object(paypark_lan04) (1)
-	CreateDynamicObject(3749,1548.0000000,-2293.7002000,16.8000000,0.0000000,0.0000000,359.9950000); //object(clubgate01_lax) (1)
-	CreateDynamicObject(1468,1560.0000000,-2295.7000000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (12)
-	CreateDynamicObject(1468,1535.5996000,-2294.8994000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (13)
-	CreateDynamicObject(1468,1530.4000000,-2294.8999000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (14)
-	CreateDynamicObject(1468,1528.9004000,-2297.2998000,13.8000000,0.0000000,0.0000000,114.0000000); //object(dyn_mesh_05) (16)
-	CreateDynamicObject(1649,1566.0996000,-2298.8994000,14.2000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (1)
-	CreateDynamicObject(1649,1566.0996000,-2303.2998000,14.2000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (2)
-	CreateDynamicObject(1649,1566.0996000,-2307.7002000,14.2000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (3)
-	CreateDynamicObject(1649,1566.0996000,-2312.0996000,14.2000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (4)
-	CreateDynamicObject(1649,1563.9000000,-2314.3000000,14.2000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (5)
-	CreateDynamicObject(1649,1559.5000000,-2314.3000000,14.2000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (6)
-	CreateDynamicObject(1649,1553.7000000,-2314.3000000,14.2000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (7)
-	CreateDynamicObject(1491,1555.8000000,-2314.3000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(gen_doorint01) (1)
-	CreateDynamicObject(1649,1551.6000000,-2312.1001000,14.2000000,0.0000000,0.0000000,270.0000000); //object(wglasssmash) (9)
-	CreateDynamicObject(1649,1551.5996000,-2307.7002000,14.2000000,0.0000000,0.0000000,270.0000000); //object(wglasssmash) (10)
-	CreateDynamicObject(14468,1556.3000000,-2314.2000000,15.5000000,0.0000000,0.0000000,0.0000000); //object(flower-bush09a) (1)
-	CreateDynamicObject(1649,1563.9000000,-2314.3000000,17.5000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (17)
-	CreateDynamicObject(1649,1559.5000000,-2314.3000000,17.5000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (18)
-	CreateDynamicObject(1649,1555.1000000,-2314.3000000,17.5000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (19)
-	CreateDynamicObject(1649,1553.7000000,-2314.3000000,17.5000000,0.0000000,0.0000000,0.0000000); //object(wglasssmash) (20)
-	CreateDynamicObject(1649,1551.6000000,-2312.1001000,17.5000000,0.0000000,0.0000000,270.0000000); //object(wglasssmash) (22)
-	CreateDynamicObject(1649,1551.5996000,-2307.7002000,17.5000000,0.0000000,0.0000000,270.0000000); //object(wglasssmash) (23)
-	CreateDynamicObject(1649,1566.1000000,-2312.1001000,17.5000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (25)
-	CreateDynamicObject(1649,1566.1000000,-2307.7000000,17.5000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (26)
-	CreateDynamicObject(1649,1566.1000000,-2303.3000000,17.5000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (27)
-	CreateDynamicObject(1649,1566.1000000,-2298.8999000,17.5000000,0.0000000,0.0000000,90.0000000); //object(wglasssmash) (28)
-	CreateDynamicObject(1423,1552.8000000,-2286.3000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (1)
-	CreateDynamicObject(1423,1548.5000000,-2286.3000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (2)
-	CreateDynamicObject(1423,1544.5000000,-2286.3000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (3)
-	CreateDynamicObject(1423,1540.7002000,-2286.3994000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (4)
-	CreateDynamicObject(4022,1555.3000000,-2271.3000000,15.6000000,0.0000000,0.0000000,359.9950000); //object(foodmart1_lan) (1)
-	CreateDynamicObject(13831,1623.5000000,-2281.1001000,31.1000000,0.0000000,0.0000000,0.0000000); //object(vinesign1_cunte01) (1)
-	CreateDynamicObject(1468,1541.6000000,-2275.5000000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (15)
-	CreateDynamicObject(1468,1536.4000000,-2275.5000000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (17)
-	CreateDynamicObject(1468,1531.2000000,-2275.5000000,13.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_mesh_05) (18)
-	CreateDynamicObject(1532,1555.4000000,-2276.2000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(gen_doorext11) (1)
-	CreateDynamicObject(1649,1552.9000000,-2303.7000000,14.2000000,0.0000000,0.0000000,234.0000000); //object(wglasssmash) (12)
-	CreateDynamicObject(1649,1552.9000000,-2303.7000000,17.5000000,0.0000000,0.0000000,233.9980000); //object(wglasssmash) (15)
-	CreateDynamicObject(1423,1553.1000000,-2301.8000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (5)
-	CreateDynamicObject(1423,1550.1000000,-2301.8000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (6)
-	CreateDynamicObject(1423,1547.5000000,-2301.8000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (7)
-	CreateDynamicObject(1423,1544.6000000,-2301.8000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (8)
-	CreateDynamicObject(1423,1541.6000000,-2301.8000000,13.1000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_4) (9)
-	CreateDynamicObject(1468,1532.1000000,-2301.1001000,13.8000000,0.0000000,0.0000000,146.0000000); //object(dyn_mesh_05) (19)
-	CreateDynamicObject(1468,1536.9000000,-2302.2000000,13.8000000,0.0000000,0.0000000,185.9970000); //object(dyn_mesh_05) (20)
-
 	//주유소
-	CreateDynamicObject(6959,1848.9000000,-1782.4000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vegasnbball1) (2)
-	CreateDynamicObject(6959,1849.5000000,-1813.4000000,12.6000000,0.0000000,0.0000000,0.0000000); //object(vegasnbball1) (3)
-	CreateDynamicObject(6959,1921.7002000,-1831.2002000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vegasnbball1) (5)
-	CreateDynamicObject(6959,1932.0996000,-1836.0996000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vegasnbball1) (6)
-	CreateDynamicObject(6959,1880.9004000,-1782.0000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vegasnbball1) (7)
-	CreateDynamicObject(1676,1846.3000000,-1786.4000000,14.3000000,0.0000000,0.0000000,272.0000000); //object(washgaspump) (1)
-	CreateDynamicObject(1676,1856.8000000,-1789.4000000,14.3000000,0.0000000,0.0000000,265.9900000); //object(washgaspump) (2)
-	CreateDynamicObject(1676,1846.3000000,-1789.3000000,14.3000000,0.0000000,0.0000000,271.9940000); //object(washgaspump) (3)
-	CreateDynamicObject(1676,1856.7000000,-1786.8000000,14.4000000,0.0000000,0.0000000,265.9900000); //object(washgaspump) (4)
-	CreateDynamicObject(6959,1889.6000000,-1821.0000000,12.5000000,0.0000000,0.0000000,0.0000000); //object(vegasnbball1) (10)
-	CreateDynamicObject(6909,1848.4000000,-1788.2000000,17.4000000,0.0000000,0.0000000,177.9950000); //object(vgnprtlstation) (1)
-	CreateDynamicObject(1424,1897.2000000,-1762.2000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (1)
-	CreateDynamicObject(1424,1894.1000000,-1762.2000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (2)
-	CreateDynamicObject(1424,1891.3000000,-1762.4000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (3)
-	CreateDynamicObject(1424,1888.7000000,-1762.3000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (4)
-	CreateDynamicObject(1424,1886.4000000,-1762.3000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (5)
-	CreateDynamicObject(1424,1883.9000000,-1762.3000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (6)
-	CreateDynamicObject(1424,1881.1000000,-1762.4000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (7)
-	CreateDynamicObject(1424,1878.4000000,-1762.5000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (8)
-	CreateDynamicObject(1424,1875.7000000,-1762.6000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (9)
-	CreateDynamicObject(1424,1872.8000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (10)
-	CreateDynamicObject(1424,1870.1000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (11)
-	CreateDynamicObject(1424,1867.4000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (12)
-	CreateDynamicObject(1424,1865.0000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (13)
-	CreateDynamicObject(1424,1862.4000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (14)
-	CreateDynamicObject(1424,1858.8000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (15)
-	CreateDynamicObject(1424,1813.3000000,-1711.3000000,-34.8000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (16)
-	CreateDynamicObject(1424,1855.2000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (17)
-	CreateDynamicObject(1424,1853.2000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (18)
-	CreateDynamicObject(1424,1851.2000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (19)
-	CreateDynamicObject(1424,1849.2000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (20)
-	CreateDynamicObject(1424,1847.3000000,-1762.6000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (21)
-	CreateDynamicObject(1424,1845.4000000,-1762.6000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (22)
-	CreateDynamicObject(1424,1843.5000000,-1762.5000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (23)
-	CreateDynamicObject(1424,1841.6000000,-1762.6000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (24)
-	CreateDynamicObject(1424,1839.8000000,-1762.5000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (25)
-	CreateDynamicObject(1424,1837.8000000,-1762.5000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (26)
-	CreateDynamicObject(1424,1835.8000000,-1762.5000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (27)
-	CreateDynamicObject(1424,1857.1000000,-1762.7000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (28)
-	CreateDynamicObject(1424,1833.8000000,-1762.4000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (29)
-	CreateDynamicObject(1424,1831.7000000,-1762.3000000,13.0000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_2) (30)
-	CreateDynamicObject(1435,1833.9000000,-1799.2000000,12.6000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_5b) (1)
-	CreateDynamicObject(1435,1835.2998000,-1799.2002000,12.6000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_5b) (2)
-	CreateDynamicObject(1435,1836.7000000,-1799.2000000,12.6000000,0.0000000,0.0000000,0.0000000); //object(dyn_roadbarrier_5b) (3)
-	CreateDynamicObject(996,1830.7998000,-1776.2002000,13.3000000,0.0000000,0.0000000,0.0000000); //object(lhouse_barrier1) (1)
-	CreateDynamicObject(6977,1929.0000000,-1782.9000000,12.2000000,0.0000000,0.0000000,271.2500000); //object(stripshopn1) (1)
-	CreateDynamicObject(4642,1903.7000000,-1763.9000000,14.2000000,0.0000000,0.0000000,270.0000000); //object(paypark_lan) (1)
-	CreateDynamicObject(4642,1907.1000000,-1763.8000000,14.2000000,0.0000000,0.0000000,270.0000000); //object(paypark_lan) (2)
-	CreateDynamicObject(996,1951.8000000,-1789.8000000,13.3000000,0.0000000,0.0000000,270.0000000); //object(lhouse_barrier1) (2)
-	CreateDynamicObject(1435,1951.5000000,-1826.5000000,12.5000000,0.0000000,0.0000000,270.0000000); //object(dyn_roadbarrier_5b) (4)
-	CreateDynamicObject(1435,1951.5000000,-1824.9000000,12.5000000,0.0000000,0.0000000,270.0000000); //object(dyn_roadbarrier_5b) (5)
-
+	CreateDynamicObject(970, 1931.5996000, -1769.4004000, 13.1000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(970, 1931.6000000, -1773.5000000, 13.1000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(970, 1931.6000000, -1781.1000000, 13.1000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(970, 1931.6000000, -1785.2000000, 13.1000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(3578, 1929.8000000, -1774.3000000, 11.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(3578, 1929.8000000, -1780.4000000, 11.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(3578, 1929.8000000, -1787.0000000, 11.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(950, 1928.7000000, -1778.4000000, 13.1000000, 0.0000000, 0.0000000, 0.5000000);
+	CreateDynamicObject(950, 1928.7000000, -1774.3000000, 13.1000000, 0.0000000, 0.0000000, 0.5000000);
+	CreateDynamicObject(970, 1941.0000000, -1766.8000000, 13.1000000, 0.0000000, 0.0000000, 269.5000000);
+	CreateDynamicObject(970, 1941.0000000, -1770.9000000, 13.1000000, 0.0000000, 0.0000000, 270.2450000);
+	CreateDynamicObject(970, 1941.0000000, -1775.0000000, 13.1000000, 0.0000000, 0.0000000, 269.7420000);
+	CreateDynamicObject(970, 1941.0000000, -1779.1000000, 13.1000000, 0.0000000, 0.0000000, 269.9860000);
+	CreateDynamicObject(970, 1942.3000000, -1779.1000000, 13.1000000, 0.0000000, 0.0000000, 269.9840000);
+	CreateDynamicObject(970, 1942.3000000, -1775.0000000, 13.1000000, 0.0000000, 0.0000000, 269.9840000);
+	CreateDynamicObject(970, 1942.3000000, -1770.9000000, 13.1000000, 0.0000000, 0.0000000, 269.9840000);
+	CreateDynamicObject(970, 1942.3000000, -1766.8000000, 13.1000000, 0.0000000, 0.0000000, 269.9840000);
+	CreateDynamicObject(949, 1941.7000000, -1781.0000000, 13.3000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(949, 1941.6000000, -1764.9000000, 13.3000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(792, 1951.5000000, -1776.6000000, 12.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1364, 1953.0000000, -1774.9000000, 13.3000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(1364, 1953.0000000, -1770.7000000, 13.3000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(1364, 1953.0000000, -1766.5000000, 13.3000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(1364, 1950.1000000, -1774.9000000, 13.3000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(1364, 1950.1000000, -1770.7000000, 13.3000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(1364, 1950.0996000, -1770.7002000, 13.3000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(1364, 1950.1000000, -1766.5000000, 13.3000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(792, 1951.4000000, -1772.7000000, 12.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(792, 1951.4000000, -1768.7000000, 12.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(792, 1951.2000000, -1765.0000000, 12.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(3578, 1931.7998000, -1792.5996000, 11.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(3578, 1921.5000000, -1792.6000000, 11.7000000, 0.0000000, 0.0000000, 0.2470000);
+	CreateDynamicObject(3578, 1911.2998000, -1792.5996000, 11.7000000, 0.0000000, 0.0000000, 359.9950000);
+	CreateDynamicObject(3578, 1922.5000000, -1797.8000000, 11.7000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(1233, 1933.6000000, -1794.4000000, 14.0000000, 0.0000000, 0.0000000, 130.0000000);
+	CreateDynamicObject(1215, 1922.5000000, -1796.7000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1922.5000000, -1795.9004000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1922.5000000, -1795.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1922.5000000, -1794.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1922.5000000, -1793.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1956.3000000, -1777.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1956.1000000, -1778.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1955.7000000, -1779.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1955.1000000, -1780.3000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1954.4000000, -1781.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1953.5000000, -1781.7000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1952.4000000, -1782.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1951.3000000, -1782.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1950.2000000, -1781.8000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1949.3000000, -1781.4000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1948.4000000, -1780.8000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.8000000, -1779.9000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.2000000, -1779.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.0000000, -1778.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1934.1000000, -1757.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1934.9004000, -1758.2998000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1935.7000000, -1759.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1936.3000000, -1760.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1936.6000000, -1761.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1936.8000000, -1762.3000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1936.6000000, -1763.7000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1757.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1758.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1759.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1760.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1761.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1762.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.5000000, -1763.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1946.5000000, -1762.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1946.7000000, -1761.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.1000000, -1760.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.6000000, -1759.3000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1948.1000000, -1758.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1948.9000000, -1758.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1949.7000000, -1757.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1941.7000000, -1781.8000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1942.0000000, -1783.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1942.4000000, -1784.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1955.5000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1954.3000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1953.2000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1952.1000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1951.0000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1950.0000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1949.0000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1948.1000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.1000000, -1787.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1947.0996000, -1787.5996000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1943.0000000, -1785.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1943.7000000, -1785.8000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1944.4000000, -1786.4000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1945.2002000, -1787.0996000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1946.0000000, -1787.4000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1934.7000000, -1787.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1934.0000000, -1787.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1933.2000000, -1787.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1932.3000000, -1787.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1935.6000000, -1794.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1935.6000000, -1795.3000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1935.6000000, -1796.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1935.6000000, -1796.9000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1914.5000000, -1786.7000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1914.2000000, -1787.4000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1913.7000000, -1788.0000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1913.1000000, -1788.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1912.5000000, -1788.8000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1911.8000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1910.9000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1910.0000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1909.2000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1908.3000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1908.2998000, -1789.0996000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1907.4000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1906.5000000, -1789.1000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1905.6000000, -1788.9000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1904.9000000, -1788.2000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1904.3000000, -1787.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9000000, -1786.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9004000, -1786.5000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9000000, -1785.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9000000, -1784.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9000000, -1783.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9000000, -1782.4000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1903.9000000, -1781.4000000, 13.0000000, 0.0000000, 0.0000000, 90.7500000);
+	CreateDynamicObject(1215, 1903.9000000, -1780.4000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1779.5000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1778.7000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1777.9000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1777.0000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9004000, -1777.0000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1776.1000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1775.2000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1774.5000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1773.8000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1772.8000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1771.9000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1771.0000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.9000000, -1770.2000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1903.3000000, -1769.6000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1902.6000000, -1769.1000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1902.0000000, -1768.8000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1901.1000000, -1768.8000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1908.5000000, -1771.5000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1908.5000000, -1770.7000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1908.5000000, -1769.9000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1908.5000000, -1769.2000000, 13.0000000, 0.0000000, 0.0000000, 90.7470000);
+	CreateDynamicObject(1215, 1908.5000000, -1768.4000000, 13.0000000, 0.0000000, 0.0000000, 95.9970000);
+	CreateDynamicObject(1215, 1908.5000000, -1767.6000000, 13.0000000, 0.0000000, 0.0000000, 95.9930000);
+	CreateDynamicObject(1215, 1908.5000000, -1766.7000000, 13.0000000, 0.0000000, 0.0000000, 87.9930000);
+	CreateDynamicObject(1215, 1908.5000000, -1765.9000000, 13.0000000, 0.0000000, 0.0000000, 87.9900000);
+	CreateDynamicObject(1215, 1908.5000000, -1764.4000000, 13.0000000, 0.0000000, 0.0000000, 87.9900000);
+	CreateDynamicObject(1215, 1908.5000000, -1765.2002000, 13.0000000, 0.0000000, 0.0000000, 87.9900000);
+	CreateDynamicObject(1215, 1908.5000000, -1763.5000000, 13.0000000, 0.0000000, 0.0000000, 87.9900000);
+	CreateDynamicObject(1215, 1908.5000000, -1762.6000000, 13.0000000, 0.0000000, 0.0000000, 87.9900000);
+	CreateDynamicObject(8572, 1917.3000000, -1765.3000000, 15.7000000, 0.0000000, 0.0000000, 181.0000000);
+	CreateDynamicObject(8572, 1922.9000000, -1765.3000000, 11.2000000, 359.6910000, 178.0000000, 179.3760000);
+	CreateDynamicObject(1215, 1925.7000000, -1764.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1924.2000000, -1764.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1916.1000000, -1764.7000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1215, 1914.6000000, -1764.6000000, 13.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(970, 1916.5000000, -1764.3000000, 13.1000000, 0.0000000, 0.0000000, 179.2500000);
+	CreateDynamicObject(970, 1920.6000000, -1764.3000000, 13.1000000, 0.0000000, 0.0000000, 180.7500000);
+	CreateDynamicObject(970, 1914.3000000, -1766.3000000, 13.1000000, 0.0000000, 0.0000000, 89.2470000);
+	CreateDynamicObject(983, 1928.1000000, -1769.5000000, 17.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(983, 1928.1000000, -1775.9000000, 17.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(983, 1928.1000000, -1782.3000000, 17.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(983, 1924.9000000, -1785.5000000, 17.7000000, 0.0000000, 0.0000000, 269.7500000);
+	CreateDynamicObject(983, 1918.5000000, -1785.5000000, 17.7000000, 0.0000000, 0.0000000, 269.9970000);
+	CreateDynamicObject(983, 1915.4000000, -1782.3000000, 17.7000000, 0.0000000, 0.0000000, 177.9950000);
+	CreateDynamicObject(983, 1915.6000000, -1775.9000000, 17.7000000, 0.0000000, 0.0000000, 178.7400000);
+	CreateDynamicObject(983, 1915.1000000, -1769.6000000, 17.7000000, 0.0000000, 0.0000000, 190.2370000);
+	CreateDynamicObject(983, 1924.9000000, -1766.3000000, 17.7000000, 0.0000000, 0.0000000, 89.2500000);
+	CreateDynamicObject(983, 1920.1000000, -1766.3000000, 17.7000000, 0.0000000, 0.0000000, 89.9970000);
+	CreateDynamicObject(1529, 1921.6000000, -1766.2000000, 15.1000000, 0.0000000, 0.0000000, 270.7500000);
+	CreateDynamicObject(1432, 1926.1000000, -1768.6000000, 17.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1432, 1921.0000000, -1775.3000000, 17.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1432, 1925.9000000, -1780.8000000, 17.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1432, 1920.1000000, -1783.5000000, 17.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(1432, 1916.9000000, -1777.6000000, 17.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(955, 1915.9000000, -1782.2000000, 17.0000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(1216, 1916.3000000, -1781.0000000, 17.7000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(1341, 1917.0000000, -1783.7000000, 18.0000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(2837, 1921.1000000, -1775.0000000, 17.6000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(2837, 1925.7000000, -1780.7000000, 17.6000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(2837, 1919.2000000, -1771.4000000, 17.6000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(640, 1927.4000000, -1774.8000000, 17.7000000, 0.0000000, 0.0000000, 0.0000000);
+	CreateDynamicObject(640, 1927.4004000, -1774.7998000, 17.7000000, 0.0000000, 0.0000000, 180.0000000);
+	CreateDynamicObject(1371, 1916.3000000, -1771.4000000, 17.8000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(910, 1914.8000000, -1778.5000000, 18.3000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(910, 1914.9000000, -1774.6000000, 18.3000000, 0.0000000, 0.0000000, 90.0000000);
+	CreateDynamicObject(1280, 1948.2000000, -1796.3000000, 12.9000000, 0.0000000, 0.0000000, 270.0000000);
+	CreateDynamicObject(1280, 1945.5000000, -1796.3000000, 12.9000000, 0.0000000, 0.0000000, 270.0000000);
 	//시청
 	CreateDynamicObject(6959, 1419.77136, -1762.26062, 12.57130, 0.00000, 0.00000, 0.00000);
 	CreateDynamicObject(6959, 1461.10437, -1762.26904, 12.57130, 0.00000, 0.00000, 0.00000);
@@ -11969,7 +11911,7 @@ public Timer1000(playerid)
 				new string[512];
 				new ip[256];
 				GetPlayerIp(playerid, ip, sizeof(ip));
-			    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
+			    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
 				ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 			}
 			else
@@ -11977,7 +11919,7 @@ public Timer1000(playerid)
 				new string[512];
 				new ip[256];
 				GetPlayerIp(playerid, ip, sizeof(ip));
-			    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
+			    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
 				ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"회원가입",string, "회원가입", "");
 			}
 		}
@@ -12424,7 +12366,6 @@ public OnPlayerRegister(playerid, password[])
 			INI_WriteInt("A_Pshow",PlayerInfo[playerid][pPshow]);
 			INI_WriteInt("A_Line",PlayerInfo[playerid][pLine]);
 			INI_WriteInt("A_Line2",PlayerInfo[playerid][pLine2]);
-			INI_WriteInt("A_Attach",PlayerInfo[playerid][pAttach]);
 			INI_Write("A_Deathreason",PlayerInfo[playerid][pDeathreason]);
 			
 			new Day;
@@ -12516,7 +12457,7 @@ public OnPlayerRegister(playerid, password[])
 		}
 		new ip[100];
 		GetPlayerIp(playerid, ip, sizeof(ip));
-	    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
+	    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
 		ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 	}
 	return 1;
@@ -12741,7 +12682,6 @@ public OnPlayerUpdateEx(playerid)
 				INI_WriteInt("A_Event",PlayerInfo[playerid][pEvent]);
 				INI_WriteInt("A_Box",PlayerInfo[playerid][pBox]);
 				INI_WriteInt("A_BoxLock",PlayerInfo[playerid][pBoxLock]);
-				INI_WriteInt("A_Attach",PlayerInfo[playerid][pAttach]);
 				INI_Write("A_Mail",PlayerInfo[playerid][pMail]);
 				INI_WriteInt("USEIPCheck",PlayerInfo[playerid][pIpcheck]);
 				INI_Write("IPs",PlayerInfo[playerid][pIp]);
@@ -12794,8 +12734,8 @@ public OnPlayerLogin(playerid,password[])
 						INI_Close();
 					}
 					checkipid[playerid]=random(899999)+100000;
-		            format(string, sizeof(string),"<hr size=4 noshade>  Univesal Role Play<br>계정 관리 정보 센터<br>정보: 당신의 계정인 %s 의 인증번호는 [%d] 입니다.<br>인증 시도를 한 IP는 %s 입니다.<br>[!] (/IP인증) 을 통해 IP가 바뀔시 인증 시도를 하는 시스템을 끌수있습니다.<br>[!] 메일 아이디 비밀번호를 수시로 변경하지 않아 발생하는 해킹 피해는 책임지지 않습니다.<hr size=4 noshade>",GetName(playerid), checkipid[playerid],sip);
-					SendMail(mail, "nomailer@nodomian.net", "계정 관리자", " Univesal Role Play [IPCheck]", string);
+		            format(string, sizeof(string),"<hr size=4 noshade>  United States Role Play<br>계정 관리 정보 센터<br>정보: 당신의 계정인 %s 의 인증번호는 [%d] 입니다.<br>인증 시도를 한 IP는 %s 입니다.<br>[!] (/IP인증) 을 통해 IP가 바뀔시 인증 시도를 하는 시스템을 끌수있습니다.<br>[!] 메일 아이디 비밀번호를 수시로 변경하지 않아 발생하는 해킹 피해는 책임지지 않습니다.<hr size=4 noshade>",GetName(playerid), checkipid[playerid],sip);
+					SendMail(mail, "nomailer@nodomian.net", "계정 관리자", " United States Role Play [IPCheck]", string);
 					format(string,sizeof(string),"%s%s님의 계정이 이전과 다른 IP의 접속이 감지되어 인증을 요청합니다.\n\nMail: "C_YELLOW"%s\n\n"C_WHITE"인증번호가 해당 메일로 전송되었습니다.\n\nIP 주소: %s\n\n인증번호를 입력하여 로그인해 주세요.", C_WHITE, PlayerName(playerid), mail, sip);
 					ShowPlayerDialog(playerid, DIALOG_35, DIALOG_STYLE_PASSWORD, ""#C_BLUE"IP 인증",string, "인증", "");
 				    return 1;
@@ -12884,7 +12824,6 @@ public OnPlayerLogin(playerid,password[])
                     PlayerInfo[playerid][pGag]=strval(INI_Read("A_Gag"));
                     PlayerInfo[playerid][pPremium]=strval(INI_Read("A_Premium"));
                     PlayerInfo[playerid][pPremiumtime]=strval(INI_Read("A_Premiumtime"));
-                    PlayerInfo[playerid][pAttach]=strval(INI_Read("A_Attach"));
                     PlayerInfo[playerid][pRadio]=strval(INI_Read("A_Radio"));
                     PlayerInfo[playerid][pOld]=strval(INI_Read("A_Old"));
                     PlayerInfo[playerid][pWhdry]=strval(INI_Read("A_Whdry"));
@@ -13037,7 +12976,7 @@ public OnPlayerLogin(playerid,password[])
 					SendAdminMessage(0xFC595AFF,string);
 				}
 				GetPlayerIp(playerid, ip, sizeof(ip));
-			    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"비밀번호가 맞지 않습니다.", PlayerName(playerid), ip);
+			    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"비밀번호가 맞지 않습니다.", PlayerName(playerid), ip);
 				ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 				WrongPassword[playerid]++;
 				return 1;
@@ -13082,7 +13021,7 @@ public OnPlayerLogin(playerid,password[])
 			TextDrawHideForPlayer(playerid, IntroTD[8]);
 			TextDrawHideForPlayer(playerid, IntroTD[9]);
 			StopAudioStreamForPlayer(playerid);
-			format(string, sizeof(string), "[!] Welcome to  Univesal Role Play, %s.", PlayerNameEx(playerid));
+			format(string, sizeof(string), "[!] Welcome to  United States Role Play, %s.", PlayerNameEx(playerid));
 			SafeSendClientMessage(playerid, COLOR_WHITE,string);
 			SafeSendClientMessage(playerid, COLOR_ADMIN,"[!]");
 			IPPlayer(playerid);
@@ -13178,14 +13117,14 @@ public OnPlayerLogin(playerid,password[])
 			StopAudioStreamForPlayer(playerid);
 		}
 	}
-	/*new Day;
+	new Day;
 	getdate(.day = Day);
 	if(PlayerInfo[playerid][pCDay] != Day)
 	{
 	    SCM(playerid,-1, "오늘 처음으로 접속하여 랜덤박스 3개가 지급되었습니다.");
 		PlayerInfo[playerid][pRandombox] ++;
 		PlayerInfo[playerid][pRandombox] ++;
-	}*/
+	}
 	return 1;
 }
 
@@ -13696,7 +13635,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	if(!IsPlayerInRangeOfPoint(playerid,3.0,RcShopPosX,RcShopPosY,RcShopPosZ)) { return SendClientMessage(playerid,0xFAFAFAFF,""#C_WHITE"당신은 장난감 숍에 있지 않습니다."); }
 	if(dini_Exists(pData[playerid][pRcFile])) { return SendClientMessage(playerid,0xFF6347FF,""#C_WHITE"장난감은 1개이상 가질수없습니다. 장난감을 파시려면 '/장난감판매'을 입력해주세요."); }
 	format(mainstring,sizeof(mainstring),"레이싱 자동차 < $5000 >\n탱크 < $7000 >\n카메라 자동차 < $6000 >");
-	ShowPlayerDialog(playerid,DIALOG_48,DIALOG_STYLE_LIST,""#C_GREEN"[UN:RPG] < 장난감 >",mainstring,"구매","취소");
+	ShowPlayerDialog(playerid,DIALOG_48,DIALOG_STYLE_LIST,""#C_GREEN"[US:RPG] < 장난감 >",mainstring,"구매","취소");
 	return 1;
 	}
 	if(!strcmp(cmdtext,"/장난감판매",true))
@@ -15051,51 +14990,6 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 		return 1;
 	}
-	
-	if(strcmp(cmd, "/프리미엄악세", true) == 0)
-	{
-	    if(IsPlayerConnected(playerid))
-	    {
-	        if(PlayerInfo[playerid][pAttach] >= 1)
-	        {
-	            ShowPlayerDialog(playerid, DIALOG_52, DIALOG_STYLE_LIST, "프리미엄 악세사리", "Fire Hands\nFlashLight", "선택", "뒤로");
-	        }
-	        else{ SafeSendClientMessage(playerid, -1, "프리미엄 악세사리 이용권 없음"); }
-	    }
-	    return 1;
-	}
-	
-	if(strcmp(cmd, "/프리미엄악세주기", true) == 0)
-	{
-		if(IsPlayerConnected(playerid))
-		{
-		    if(PlayerInfo[playerid][pAdmin] >= 11)
-		    {
-		        tmp = strtok(cmdtext, idx);
-				if(!strlen(tmp))
-				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /프리미엄악세주기 [플레이어 번호]");
-					return 1;
-				}
-				giveplayerid = ReturnUser(tmp);
-				if(IsPlayerConnected(giveplayerid))
-				{
-					if(giveplayerid != INVALID_PLAYER_ID)
-					{
-						PlayerInfo[giveplayerid][pAttach] = 1;
-						format(string, 256, "관리자 %s 님이 %s 에게 프리미엄 악세사리 이용권을 주었습니다.", PlayerNameEx(playerid),PlayerNameEx(giveplayerid));
-						SendAdminMessage(0xFC595AFF,string);
-					}
-				}
-			}
-			else
-			{
-				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"당신은 이 명령어를 사용할 권한이 없습니다.!");
-			}
-		}
-		return 1;
-	}
-	
 	if(strcmp(cmd, "/악세사리", true) == 0 || strcmp(cmd, "/악세", true) == 0)
 	{
 		if(IsPlayerConnected(playerid))
@@ -20341,7 +20235,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			else
 			{
 				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"< ☞ >"#C_WHITE" 모집중인 정부군 : [ 1 LSPD ] [ 4 LSFD ]");
-				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"< ☞ >"#C_WHITE" 조직/갱 팩션은 창작 신청이 가능합니다.");
+				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"< ☞ >"#C_WHITE" 조직/갱 당파는 창작 신청이 가능합니다.");
 			}
 		}
 		return 1;
@@ -21024,7 +20918,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	{
 		if(IsPlayerConnected(playerid))
 		{
-			if(IsPlayerInAnyVehicle(playerid) && IsPlayerInRangeOfPoint(playerid,20.0,1851.5834,-1787.8419,13.5612))
+			if(IsPlayerInAnyVehicle(playerid) && IsPlayerInRangeOfPoint(playerid,15,1937.1110,-1772.9862,13.3828))
 			{
 				if(SafeGetPlayerMoney(playerid)<50)
 				{
@@ -21685,7 +21579,6 @@ public OnPlayerCommandText(playerid, cmdtext[])
             PlayerInfo[playerid][pAdmin] = PlayerInfo[playerid][pAdminSave];
 			PlayerInfo[playerid][pAdminMode] = 2;
 			SetTimerEx("AdminWalk", 5, true, "i", playerid);
-			SafeSendClientMessage(playerid, -1, "관리업무 ON");
 		}
 		else if (PlayerInfo[playerid][pAdminMode] == 2)
 		{
@@ -21703,7 +21596,6 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			SetPlayerSkin(playerid, PlayerInfo[playerid][pChar]);
 			KillTimer(AdminWalk(playerid));
 			SetTimerEx("AdminWalk2", 5, true, "i", playerid);
-			SafeSendClientMessage(playerid, -1, "관리업무 OFF");
 		}
 		return 1;
 	}
@@ -23387,7 +23279,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		return 1;
 	}
 
-	if(strcmp(cmd, "/팩션", true) == 0)
+	if(strcmp(cmd, "/당파", true) == 0)
 	{
 		if(IsPlayerConnected(playerid))
 		{
@@ -23399,7 +23291,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			tmp = strtok(cmdtext, idx);
 			if(!strlen(tmp))
 			{
-				SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 [이름]");
+				SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 [이름]");
 				SendClientCommandNameMessage(playerid, "추가, 삭제, 목록, 이름, 종류, 조직채팅, 태그");
 				return 1;
 			}
@@ -23408,24 +23300,24 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				tmp = strtok(cmdtext, idx);
 				if(!strlen(tmp))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 추가 [팩션번호]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 추가 [당파번호]");
 					return 1;
 				}
 				new f = strval(tmp);
 				if(f < 1 || f >= MAX_FACTIONS)
 				{
-					format(string, sizeof(string), "* 서버 팩션 번호는 1 ~ %d 까지 있습니다.", MAX_FACTIONS-1);
+					format(string, sizeof(string), "* 서버 당파 번호는 1 ~ %d 까지 있습니다.", MAX_FACTIONS-1);
 					SendClientErrorMessage(playerid, string);
 					return 1;
 				}
 				if(FactionInfo[f][fCreate] == 1)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 현재 존재하는 팩션 이름입니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 현재 존재하는 당파 이름입니다.");
 					return 1;
 				}
 				FactionInfo[f][fCreate] = 1;
 				SaveFaction(f);
-				format(string, sizeof(string), "(%d) 팩션를 생성하였습니다.", f);
+				format(string, sizeof(string), "(%d) 당파를 생성하였습니다.", f);
 				SendClientInfoMessage(playerid, string);
 			}
 			else if(strcmp(tmp, "삭제", true) == 0)
@@ -23433,17 +23325,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				tmp = strtok(cmdtext, idx);
 				if(!strlen(tmp))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 삭제 [팩션번호]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 삭제 [당파번호]");
 					return 1;
 				}
 				new f = strval(tmp);
 				if(FactionInfo[f][fCreate] == 0)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 팩션는 생성된 팩션가 아닙니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 당파는 생성된 당파가 아닙니다.");
 					return 1;
 				}
 				new query[256];
-				format(string, sizeof(string), "%s (%d) 팩션를 삭제하였습니다.", FactionInfo[f][fName], f);
+				format(string, sizeof(string), "%s (%d) 당파를 삭제하였습니다.", FactionInfo[f][fName], f);
 				FactionInfo[f][fCreate] = 0;
 				FactionInfo[f][fType] = 0;
 				FactionInfo[f][fX] = 0.0;
@@ -23476,13 +23368,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				tmp = strtok(cmdtext, idx);
 				if(!strlen(tmp))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 이름 [팩션번호] [이름]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 이름 [당파번호] [이름]");
 					return 1;
 				}
 				new f = strval(tmp);
 				if(FactionInfo[f][fCreate] == 0)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 팩션는 생성된 팩션가 아닙니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 당파는 생성된 당파가 아닙니다.");
 					return 1;
 				}
 				new length = strlen(cmdtext);
@@ -23500,12 +23392,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				result[idx - offset] = EOS;
 				if(!strlen(result))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 이름 [팩션번호] [이름]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 이름 [당파번호] [이름]");
 					return 1;
 				}
 				strmid(FactionInfo[f][fName], result, 0, strlen(result), 255);
 				SaveFaction(f);
-				format(string, sizeof(string), "(%d) 팩션 이름을 %s 으로 변경하였습니다.", f, FactionInfo[f][fName]);
+				format(string, sizeof(string), "(%d) 당파 이름을 %s 으로 변경하였습니다.", f, FactionInfo[f][fName]);
 				SendClientInfoMessage(playerid, string);
 			}
 			else if(strcmp(tmp, "종류", true) == 0)
@@ -23513,21 +23405,21 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				tmp = strtok(cmdtext, idx);
 				if(!strlen(tmp))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 이름 [팩션번호] [이름]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 이름 [당파번호] [이름]");
 					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 1: 정부군(정식) | 2: 정부군(비정식) | 3: 조직(정식) | 4: 조직(비정식)");
 					return 1;
 				}
 				new f = strval(tmp);
 				if(FactionInfo[f][fCreate] == 0)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 팩션는 생성된 팩션가 아닙니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 당파는 생성된 당파가 아닙니다.");
 					return 1;
 				}
 				tmp = strtok(cmdtext, idx);
 				new num = strval(tmp);
 				FactionInfo[f][fType] = num;
 				SaveFaction(f);
-				format(string, sizeof(string), "%s (%d) 팩션의 종류를 %d 으로 변경하였습니다.", FactionInfo[f][fName], f, FactionInfo[f][fType]);
+				format(string, sizeof(string), "%s (%d) 당파의 종류를 %d 으로 변경하였습니다.", FactionInfo[f][fName], f, FactionInfo[f][fType]);
 				SendClientInfoMessage(playerid, string);
 			}
 			else if(strcmp(tmp, "조직채팅", true) == 0)
@@ -23535,18 +23427,18 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				tmp = strtok(cmdtext, idx);
 				if(!strlen(tmp))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 조직채팅 [팩션번호] [언어]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 조직채팅 [당파번호] [언어]");
 					return 1;
 				}
 				new f = strval(tmp);
 				if(FactionInfo[f][fCreate] == 0)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 팩션는 생성된 팩션가 아닙니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 당파는 생성된 당파가 아닙니다.");
 					return 1;
 				}
 				if(FactionInfo[f][fType] != 3)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 팩션는 조직(정식)이 아닙니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 당파는 조직(정식)이 아닙니다.");
 					return 1;
 				}
 				new length = strlen(cmdtext);
@@ -23564,12 +23456,12 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				result[idx - offset] = EOS;
 				if(!strlen(result))
 				{
-					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 조직채팅 [팩션번호] [언어]");
+					SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 조직채팅 [당파번호] [언어]");
 					return 1;
 				}
 				strmid(FactionInfo[f][fChat], result, 0, strlen(result), 255);
 				SaveFaction(f);
-				format(string, sizeof(string), "(%d) 팩션 조직채팅을 %s 으로 변경하였습니다.", f, FactionInfo[f][fChat]);
+				format(string, sizeof(string), "(%d) 당파 조직채팅을 %s 으로 변경하였습니다.", f, FactionInfo[f][fChat]);
 				SendClientInfoMessage(playerid, string);
 			}
 			else if(strcmp(tmp, "태그", true) == 0)
@@ -23577,33 +23469,33 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				tmp = strtok(cmdtext, idx);
 				if(!strlen(tmp))
 				{
-					format(string, sizeof(string), "/팩션 태그 [팩션번호] [1~%d]", sizeof(SprayList));
+					format(string, sizeof(string), "/당파 태그 [당파번호] [1~%d]", sizeof(SprayList));
 					SafeSendClientMessage(playerid, COLOR_CMD, string);
 					return 1;
 				}
 				new f = strval(tmp);
 				if(FactionInfo[f][fCreate] == 0)
 				{
-					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 팩션는 생성된 팩션가 아닙니다.");
+					SendClientErrorMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" 이 당파는 생성된 당파가 아닙니다.");
 					return 1;
 				}
 				tmp = strtok(cmdtext, idx);
 				new num = strval(tmp);
 				if(num < 0 || num > sizeof(SprayList))
 				{
-					format(string, sizeof(string), "/팩션 태그 [팩션번호] [1~%d]", sizeof(SprayList));
+					format(string, sizeof(string), "/당파 태그 [당파번호] [1~%d]", sizeof(SprayList));
 					SafeSendClientMessage(playerid, COLOR_CMD, string);
 				}
 				FactionInfo[f][fTag] = num;
 				if(num)
-					format(string, sizeof(string), "%s (%d) 팩션의 태그를 %s 으로 변경하였습니다.", FactionInfo[f][fName], f, SprayList[FactionInfo[f][fTag]-1][slName]);
+					format(string, sizeof(string), "%s (%d) 당파의 태그를 %s 으로 변경하였습니다.", FactionInfo[f][fName], f, SprayList[FactionInfo[f][fTag]-1][slName]);
 				else
-					format(string, sizeof(string), "%s (%d) 팩션의 태그를 제거하였습니다.", FactionInfo[f][fName], f);
+					format(string, sizeof(string), "%s (%d) 당파의 태그를 제거하였습니다.", FactionInfo[f][fName], f);
    				SendClientInfoMessage(playerid, string);
 			}
 			else
 			{
-				SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /팩션 [이름]");
+				SendClientCommandMessage(playerid, ""#C_YELLOW"< ☞ >"#C_WHITE" /당파 [이름]");
 				SendClientCommandNameMessage(playerid, "추가, 삭제, 이름, 종류, 조직채팅, 태그");
 				return 1;
 			}
@@ -24208,7 +24100,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		if(IsPlayerConnected(playerid))
 		{
 			SafeSendClientMessage(playerid,0x4E33CCFF, "-----------------------------------------");
-			SafeSendClientMessage(playerid, COLOR_NEWS, "Univesal Role Play");
+			SafeSendClientMessage(playerid, COLOR_NEWS, "United States Role Play");
 			SafeSendClientMessage(playerid, COLOR_NEWS, "Cafe:http://cafe.daum.net/unitedrp");
 			format(string, sizeof(string), "Mode: %s", SCRIPT_VERSION);
 			SafeSendClientMessage(playerid, COLOR_NEWS,string);
@@ -29244,7 +29136,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				else
 				{
-					SafeSetPlayerPos(playerid, -1782.4, 12.5, 0);
+					SafeSetPlayerPos(playerid, 544.5145,-1284.8923,16.9723);
 				}
 				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"당신은 차구매 위치로 텔레포트 되었습니다.");
 				SetPlayerInterior(playerid,0);
@@ -29321,7 +29213,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	{
 		if(IsPlayerConnected(playerid))
 		{
-			format(string,sizeof(string),"1. \t마지막 장소\n2. \t팩션\n3. \t시민직\n4. \t집");
+			format(string,sizeof(string),"1. \t마지막 장소\n2. \t당파\n3. \t시민직\n4. \t집");
 			ShowPlayerDialog(playerid, DIALOG_34, DIALOG_STYLE_LIST, "스폰 하실 번호를 선택해주세요.",string, "확인","");
 			return 1;
 		}
@@ -29486,31 +29378,6 @@ public OnPlayerCommandText(playerid, cmdtext[])
 							format(string, sizeof(string), ":: < %d. [이름] %s   [번호판] %s   [차량번호] %d   [상태]:주차장 > ::", hc, GetVehicleName(kay[hc]), PlayerCarKey[playerid][hc], kay[hc]);
 							SafeSendClientMessage(playerid, COLOR_WHITE, string);
 						}
-						else if(tow == 3)
-						{
-							format(string, sizeof(string), ":: < %d. [이름] %s   [번호판] %s   [차량번호] %d   [상태]:주차장 > ::", hc, GetVehicleName(kay[hc]), PlayerCarKey[playerid][hc], kay[hc]);
-							SafeSendClientMessage(playerid, COLOR_WHITE, string);
-						}
-						else if(tow == 4)
-						{
-							format(string, sizeof(string), ":: < %d. [이름] %s   [번호판] %s   [차량번호] %d   [상태]:주차장 > ::", hc, GetVehicleName(kay[hc]), PlayerCarKey[playerid][hc], kay[hc]);
-							SafeSendClientMessage(playerid, COLOR_WHITE, string);
-						}
-						else if(tow == 5)
-						{
-							format(string, sizeof(string), ":: < %d. [이름] %s   [번호판] %s   [차량번호] %d   [상태]:주차장 > ::", hc, GetVehicleName(kay[hc]), PlayerCarKey[playerid][hc], kay[hc]);
-							SafeSendClientMessage(playerid, COLOR_WHITE, string);
-						}
-						else if(tow == 6)
-						{
-							format(string, sizeof(string), ":: < %d. [이름] %s   [번호판] %s   [차량번호] %d   [상태]:주차장 > ::", hc, GetVehicleName(kay[hc]), PlayerCarKey[playerid][hc], kay[hc]);
-							SafeSendClientMessage(playerid, COLOR_WHITE, string);
-						}
-						else if(tow == 7)
-						{
-							format(string, sizeof(string), ":: < %d. [이름] %s   [번호판] %s   [차량번호] %d   [상태]:주차장 > ::", hc, GetVehicleName(kay[hc]), PlayerCarKey[playerid][hc], kay[hc]);
-							SafeSendClientMessage(playerid, COLOR_WHITE, string);
-						}
 					}
 				}
 				return 1;
@@ -29565,67 +29432,64 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 					if(IsPlayerCar(playerid, vehicleid) || PlayerInfo[playerid][pMember] == CarInfo[vehicleid][cMember] && CarInfo[vehicleid][cMember] != 0 || IsRentCar(vehicleid) && HireCar[playerid] == vehicleid || PlayerDrivingTest[playerid] != 0 && PlayerDrivingTest[playerid] == vehicleid)
 					{
-					    if(SCAR[0] != vehicleid)
+						if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
 						{
-							if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+							SafeSendClientMessage(playerid, COLOR_GRAY, "당신은 운전석에 타고있지 않습니다.");
+							return 1;
+						}
+						if(NPCCAR==vehicleid)
+						{
+							return 1;
+						}
+						if(IsABike(vehicleid))
+						{
+							SafeSendClientMessage(playerid, COLOR_GRAY, "자전거는 시동을 걸수없는 차량입니다.");
+							return 1;
+						}
+						if(IsRentCar(vehicleid) || JCAR[49][0] <= vehicleid && JCAR[49][1] >= vehicleid)
+						{
+							if(HireCar[playerid] != vehicleid)
 							{
-								SafeSendClientMessage(playerid, COLOR_GRAY, "당신은 운전석에 타고있지 않습니다.");
+								SafeSendClientMessage(playerid, COLOR_GRAY, "당신은 이 차량을 렌트하지 않았습니다.");
 								return 1;
 							}
-							if(NPCCAR==vehicleid)
-							{
-								return 1;
-							}
-							if(IsABike(vehicleid))
-							{
-								SafeSendClientMessage(playerid, COLOR_GRAY, "자전거는 시동을 걸수없는 차량입니다.");
-								return 1;
-							}
-							if(IsRentCar(vehicleid) || JCAR[49][0] <= vehicleid && JCAR[49][1] >= vehicleid)
-							{
-								if(HireCar[playerid] != vehicleid)
-								{
-									SafeSendClientMessage(playerid, COLOR_GRAY, "당신은 이 차량을 렌트하지 않았습니다.");
-									return 1;
-								}
-							}
-							new Float:vhealth;
-			   				GetVehicleHealth(vehicleid, vhealth);
-							if(vhealth <= 300)
-							{
-								SendClientErrorMessage(playerid, "차량이 고장나서 시동을 걸 수 없습니다.");
-								return 1;
-							}
-							if(CarInfo[vehicleid][cGas] <= 0)
-							{
-								SendClientErrorMessage(playerid, "차량의 기름이 부족하여 시동을 걸을 수 없습니다.");
-								return 1;
-							}
-							new engine,lights,alarm,doors,bonnet,boot,objective;
-							GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
-							if(engine == 1)
-							{
+						}
+						new Float:vhealth;
+		   				GetVehicleHealth(vehicleid, vhealth);
+						if(vhealth <= 300)
+						{
+							SendClientErrorMessage(playerid, "차량이 고장나서 시동을 걸 수 없습니다.");
+							return 1;
+						}
+						if(CarInfo[vehicleid][cGas] <= 0)
+						{
+							SendClientErrorMessage(playerid, "차량의 기름이 부족하여 시동을 걸을 수 없습니다.");
+							return 1;
+						}
+						new engine,lights,alarm,doors,bonnet,boot,objective;
+						GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
+						if(engine == 1)
+						{
 
-								format(string, sizeof(string), "* %s이(가) %s 에 시동을 끈다.", PlayerNameEx(playerid),GetVehicleName(vehicleid));
-								ProxDetector(5.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-								SetVehicleParamsEx(vehicleid,0,0,alarm,doors,bonnet,boot,objective);
-								return 1;
-							}
-							else
+							format(string, sizeof(string), "* %s이(가) %s 에 시동을 끈다.", PlayerNameEx(playerid),GetVehicleName(vehicleid));
+							ProxDetector(5.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+							SetVehicleParamsEx(vehicleid,0,0,alarm,doors,bonnet,boot,objective);
+							return 1;
+						}
+						else
+						{
+							if(IsPlayerCar(playerid, vehicleid) && PlayerInfo[playerid][pAccount] < 0)
 							{
-								if(IsPlayerCar(playerid, vehicleid) && PlayerInfo[playerid][pAccount] < 0)
-								{
-									SafeSendClientMessage(playerid, COLOR_GRAY, "세금을 납부하지 않아서 차량을 이용할 수 없습니다.");
-									return 1;
-								}
-								format(string, sizeof(string), "* %s이(가) %s 에 시동을 건다.", PlayerNameEx(playerid),GetVehicleName(vehicleid));
-								ProxDetector(5.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-								SetTimerEx("StartingTheVehicle",1000+random(500),0, "i",playerid);
-								GameTextForPlayer(playerid, "~w~Starting vehicle engine...",1000,3);
-								//PlayStreamedMusic(playerid, "시동소리", GetVarString("시동소리"));
+								SafeSendClientMessage(playerid, COLOR_GRAY, "세금을 납부하지 않아서 차량을 이용할 수 없습니다.");
 								return 1;
 							}
-				        }
+							format(string, sizeof(string), "* %s이(가) %s 에 시동을 건다.", PlayerNameEx(playerid),GetVehicleName(vehicleid));
+							ProxDetector(5.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+							SetTimerEx("StartingTheVehicle",1000+random(500),0, "i",playerid);
+							GameTextForPlayer(playerid, "~w~Starting vehicle engine...",1000,3);
+							//PlayStreamedMusic(playerid, "시동소리", GetVarString("시동소리"));
+							return 1;
+						}
 					}
 				}
 			}
@@ -30703,13 +30567,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	}
 
 
-	if(strcmp(cmd, "/팩션차량", true) == 0)
+	if(strcmp(cmd, "/당파차량", true) == 0)
 	{
 		if(IsPlayerConnected(playerid))
 		{
 			if(PlayerInfo[playerid][pLeader] == 0)
 			{
-				SafeSendClientMessage(playerid, COLOR_GRAD2, ""#C_YELLOW"< ☞ >"#C_WHITE" 팩션의 리더가 아닙니다.");
+				SafeSendClientMessage(playerid, COLOR_GRAD2, ""#C_YELLOW"< ☞ >"#C_WHITE" 당파의 리더가 아닙니다.");
 				return 1;
 			}
 			if(!IsPlayerInAnyVehicle(playerid))
@@ -30730,7 +30594,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 			    if(carz >= 100)
 			    {
-					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  더 이상 차량을 팩션차량으로 등록할 수 없습니다. (최대 100대)");
+					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  더 이상 차량을 당파차량으로 등록할 수 없습니다. (최대 100대)");
 					return 1;
 			    }
 			}
@@ -30738,7 +30602,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 			    if(carz >= 100)
 			    {
-					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  더 이상 차량을 팩션차량으로 등록할 수 없습니다. (최대 100대)");
+					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  더 이상 차량을 당파차량으로 등록할 수 없습니다. (최대 100대)");
 					return 1;
 			    }
 			}
@@ -30746,7 +30610,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			{
 			    if(carz >= 100)
 			    {
-					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  더 이상 차량을 팩션차량으로 등록할 수 없습니다. (최대 100대)");
+					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  더 이상 차량을 당파차량으로 등록할 수 없습니다. (최대 100대)");
 					return 1;
 			    }
 			}
@@ -30756,7 +30620,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				{
 					if(strcmp(PlayerCarKey[playerid][hc], CarInfo[vehicleid][cLP], true) == 0)
 					{
-						ShowPlayerDialog(playerid, DIALOG_19, DIALOG_STYLE_MSGBOX, "팩션차량", "정말로 현재 차량을 팩션차량으로 등록하시겠습니까?\n\n{FF0000}[!] 한번 등록한 차량은 해제가 불가능합니다.", "확인", "취소");
+						ShowPlayerDialog(playerid, DIALOG_19, DIALOG_STYLE_MSGBOX, "당파차량", "정말로 현재 차량을 당파차량으로 등록하시겠습니까?\n\n{FF0000}[!] 한번 등록한 차량은 해제가 불가능합니다.", "확인", "취소");
 						return 1;
 					}
 				}
@@ -30770,13 +30634,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		return 1;
 	}
 
-	if(strcmp(cmd, "/팩션차량추적", true) == 0)
+	if(strcmp(cmd, "/당파차량추적", true) == 0)
 	{
 		if(IsPlayerConnected(playerid))
 		{
 			if(PlayerInfo[playerid][pLeader] == 0)
 			{
-				SafeSendClientMessage(playerid, COLOR_GRAD2, ""#C_YELLOW"< ☞ >"#C_WHITE" 팩션의 리더만 사용할 수 있습니다.");
+				SafeSendClientMessage(playerid, COLOR_GRAD2, ""#C_YELLOW"< ☞ >"#C_WHITE" 당파의 리더만 사용할 수 있습니다.");
 				return 1;
 			}
 			if(UsedCheckpoint(playerid))
@@ -30795,7 +30659,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			}
 			if(!strlen(tmp))
 			{
-				format(string, sizeof(string), "/팩션차량추적 [1~%d]", carz);
+				format(string, sizeof(string), "/당파차량추적 [1~%d]", carz);
 				SafeSendClientMessage(playerid, COLOR_GRAD2, string);
 				return 1;
 			}
@@ -30823,19 +30687,19 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		return 1;
 	}
 
-	if(strcmp(cmd, "/팩션스폰", true) == 0)
+	if(strcmp(cmd, "/당파스폰", true) == 0)
 	{
 		if(IsPlayerConnected(playerid))
 		{
 			if(PlayerInfo[playerid][pLeader] == 0 && PlayerInfo[playerid][pAdmin] < 7)
 			{
-				SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  당신은 어떤한 팩션에도 속해있지않거나 리더가 아닙니다.");
+				SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  당신은 어떤한 당파에도 속해있지않거나 리더가 아닙니다.");
 				return 1;
 			}
 			GetPlayerPos(playerid, FactionInfo[PlayerInfo[playerid][pMember]][fX], FactionInfo[PlayerInfo[playerid][pMember]][fY], FactionInfo[PlayerInfo[playerid][pMember]][fZ]);
 			FactionInfo[PlayerInfo[playerid][pMember]][fInterior] = GetPlayerInterior(playerid);
 			FactionInfo[PlayerInfo[playerid][pMember]][fVirtualWorld] = GetPlayerVirtualWorld(playerid);
-			SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  팩션 스폰위치 설정이 완료되었습니다.");
+			SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  당파 스폰위치 설정이 완료되었습니다.");
 			SaveFaction(PlayerInfo[playerid][pMember]);
 		}
 		return 1;
@@ -35419,7 +35283,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			if(PlayerInfo[playerid][pLeader] >= 1 )
 			{
 				SafeSendClientMessage(playerid, COLOR_LINE, "┗━━━━━━━━━━━━━━━━━━━━ 리더 도움말 ━━━━━━━━━━━━━━━━━━━━┛");
-				SendClientHelpMessage(playerid, "/초대 /해고 /계급주기 /계급이름 /팩션차량 /팩션차량추적");
+				SendClientHelpMessage(playerid, "/초대 /해고 /계급주기 /계급이름 /당파차량 /당파차량추적");
 				SafeSendClientMessage(playerid, COLOR_LINE, "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 			}
 			else
@@ -35550,7 +35414,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 				}
 				case 11:
 				{
-					SendClientHelpMessage(playerid, "/모델변경 /주인변경 /팩션 /그룹 /프리미엄 /관리자이름");
+					SendClientHelpMessage(playerid, "/모델변경 /주인변경 /당파 /그룹 /프리미엄 /관리자이름");
 				}
 			}
 			SafeSendClientMessage(playerid, COLOR_LINE, "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -41790,33 +41654,15 @@ public changeserver()
 {
 	if(hostname == 0)
 	{
- 		SendRconCommand("hostname 　&Univesal Role Play [cafe.daum.net/unitedrp]"); // SERVER NAME
+ 		SendRconCommand("hostname 　&United States Role Play [cafe.daum.net/unitedrp]"); // SERVER NAME
      	hostname = 1;
  	}
  	else if(hostname == 1)
  	{
- 		SendRconCommand("hostname 　&유니버셜 롤 플레잉 [cafe.daum.net/unitedrp]"); // SERVER NAME 2
+ 		SendRconCommand("hostname 　&유나이티드 스테이트 롤 플레잉 [cafe.daum.net/unitedrp]"); // SERVER NAME 2
      	hostname = 0;
 	}
 	return 1;
-}
-
-forward OnPlayerChangeVehicle(playerid, vehicleid);
-public OnPlayerChangeVehicle(playerid, vehicleid)
-{
-    new string[256];
-	#pragma unused vehicleid
-	if((GetTickCount() - g_VehTime[ playerid ]) < 500)
-	{
-
-	    format(string,sizeof(string),"[ 이름 : %s 번호 : %d ] 가 차량 클레오 사용으로 영구 밴 처리 됩니다.",PlayerNameEx(playerid), playerid);
-		SendAdminMessage(COLOR_WHITE,string);
-	    SendClientMessage(playerid, COLOR_RED, "차량 클레오를 사용 하여 서비스 블럭 처리됩니다.");
-		format(string, sizeof(string),"%s 가 서비스 블럭처리 되었습니다. [사유: 차량클레오]", PlayerNameEx(playerid));
-		SendClientMessageToAll(COLOR_RED, string);
-		BanEx(playerid, "차량클레오");
-	}
-	g_VehTime[playerid] = GetTickCount();
 }
 
 public StartingTheVehicle(playerid)
@@ -41883,7 +41729,6 @@ public SafeGivePlayerWeapon(playerid, weaponid, ammo)
 	ResetPlayerWeapons(playerid);
 	PlayerInfo[playerid][pAGun][0] = weaponid;
 	PlayerInfo[playerid][pGAmm][0] = ammo;
-	WeaponHack[playerid][weaponid] = true;
 	GivePlayerWeapon(playerid, weaponid, ammo);
 	return 1;
 }
@@ -42846,95 +42691,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 		}
 	}
-	if (dialogid == DIALOG_52)
-	{
-		switch(listitem)
-		{
-		    case 1:
-		    {
-		        for(new i = 0; i < 9; i ++) RemovePlayerAttachedObject(playerid, i);
-				SetPlayerAttachedObject( playerid, 0, 18693, 5, 1.983503, 1.558882, -0.129482, 86.705787, 308.978118, 268.198822, 1.500000, 1.500000, 1.500000 );
-                SetPlayerAttachedObject( playerid, 1, 18693, 6, 1.983503, 1.558882, -0.129482, 86.705787, 308.978118, 268.198822, 1.500000, 1.500000, 1.500000 );
-                SetPlayerAttachedObject( playerid, 2, 18703, 6, 1.983503, 1.558882, -0.129482, 86.705787, 308.978118, 268.198822, 1.500000, 1.500000, 1.500000 );
-                SetPlayerAttachedObject( playerid, 3, 18703, 5, 1.983503, 1.558882, -0.129482, 86.705787, 308.978118, 268.198822, 1.500000, 1.500000, 1.500000 );
-				SafeSendClientMessage(playerid, -1, "프리미엄 악세사리 Fire Hands 를 착용하였습니다.");
-		    }
-		    
-			case 2:
-			{
-				for(new i = 0; i < 9; i ++) RemovePlayerAttachedObject(playerid, i);
-				SetPlayerAttachedObject(playerid, 1,18656, 5, 0.1, 0.038, -0.1, -90, 180, 0, 0.03, 0.03, 0.03);
-				SetPlayerAttachedObject(playerid, 2,18641, 5, 0.1, 0.02, -0.05, 0, 0, 0, 1, 1, 1);
-				SafeSendClientMessage(playerid, -1, "프리미엄 악세사리 FlashLight 를 착용하였습니다.");
-			}
-		}
-	}
-	if (dialogid == DIALOG_CAR_BUY)
-    {
-        if (response)
-        {
-			new c;
-			new qjsgh2[256];
-			new carmodel = GetVehicleModel(vehicleid);
-   			for( ; ;)
-			{
-				format(qjsgh2, sizeof(qjsgh2), "SAB%d%d%d%d%d",random(9)+1,random(10),random(10),random(10),random(10));
-				if(!CheckCars(qjsgh2))
-				{
-					break;
-				}
-			}
-			SafeGivePlayerMoney(playerid, -LoadCarprice(carmodel));
-			c = CreateVehicle(carmodel, 999.9427,-1357.3751,13.3198,85.4963,1,1,30000);
-			for(new hc = 0; hc < MAX_HAVE_CAR; hc++)
-			{
-			  	if(strcmp(PlayerCarKey[playerid][hc], "None", true) == 0)
-				{
-					strmid(PlayerCarKey[playerid][hc], qjsgh2, 0, strlen(qjsgh2), 255);
-					break;
-				}
-			}
-			CarInfo[c][cMember] = 0;
-			CarInfo[c][cColor] = 1;
-			CarInfo[c][cColor2] = 1;
-			CarInfo[c][cCreate] = 1;
-			CarInfo[c][cModel] = carmodel;
-			CarInfo[c][cGas] = 100;
-			strmid(CarInfo[c][cOwner], GetName(playerid), 0, strlen(GetName(playerid)), 255);
-			CarInfo[c][cGas] = 100;
-			CarInfo[c][cFoise] = 0;
-		    CarInfo[c][cRealHealth]=1000;
-		    CarInfo[c][CheckRepair]=0;
-		    CarInfo[c][cTrunkLock]=1;
-			strmid(CarInfo[c][cLP], qjsgh2, 0, strlen(qjsgh2), 255);
-			SetVehicleNumberPlate(c,CarInfo[c][cLP]);
-			for(new i = 0; i < MAX_TUNING;i++)
-			{
-				CarInfo[c][cTuning][i] = 0;
-			}
-			for(new i = 0; i < MAX_TRUNK;i++)
-			{
-				CarInfo[c][cTrunk][i] = 0;
-			}
-			CarInfo[c][cPaintjob] = 999;
-			CarInfo[c][cTow] = 0;
-			CarInfo[c][cHealth] = 1000;
-			SaveCar(c);
-			if(SirenVehicle[c]==1)
-			{
-			    SirenVehicle[c]=0;
-			    strdel(SirenURL[c],0,256);
-			    DestroyObject(SirenObject[c]);
-			}
-			KillTimer(UpdateVehicleTimer[c]);
-			UpdateVehicleTimer[c]=SetTimerEx("OnVehicleUpdate",300,true,"i",c);
-			SafeSendClientMessage(playerid, COLOR_GRAD2, "축하합니다 차를 구매하셨습니다!");
-			SendClientCommandMessage(playerid, "(/차량도움말)로 차정보를 보실수 있습니다.");
-			SendClientCommandMessage(playerid, "(/차 주차) 를 꼭 해주시기 바랍니다.");
-		}
-		RemovePlayerFromVehicle(playerid);
-        return 1;
-    }
 	if(dialogid==DIALOG_53+4)
 	{
 		if(response)
@@ -44112,8 +43868,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				strmid(tmppass,INI_Read("A_Password"),0,strlen(INI_Read("A_Password")),256);
 				INI_Close();
 			}
-            format(string, sizeof(string), "<hr size=4 noshade> Univesal Role Play<br>계정 관리 정보 센터<br>정보: 당신의 계정인 %s 의 비밀번호는 [%s] 입니다.<br>[!] 메일 아이디 비밀번호를 수시로 변경하지 않아 발생하는 해킹 피해는 책임지지 않습니다.<hr size=4 noshade>",GetName(playerid), tmppass);
-        	SendMail(mail, "nomailer@nodomian.net", "계정 관리자", " Univesal Role Play [Password]", string);
+            format(string, sizeof(string), "<hr size=4 noshade> United States Role Play<br>계정 관리 정보 센터<br>정보: 당신의 계정인 %s 의 비밀번호는 [%s] 입니다.<br>[!] 메일 아이디 비밀번호를 수시로 변경하지 않아 발생하는 해킹 피해는 책임지지 않습니다.<hr size=4 noshade>",GetName(playerid), tmppass);
+        	SendMail(mail, "nomailer@nodomian.net", "계정 관리자", " United States Role Play [Password]", string);
 		    format(string,sizeof(string),"%s%s님, 환영합니다\n\nMail: "C_YELLOW"%s\n\n"C_WHITE"비밀번호가 해당 메일로 전송되었습니다.\n\nIP 주소: %s\n\n비밀번호를 입력하여 로그인해 주세요.", C_WHITE, PlayerName(playerid), mail, ip);
 			ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 	    }
@@ -44121,7 +43877,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    {
 			new ip[100];
 			GetPlayerIp(playerid, ip, sizeof(ip));
-		    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
+		    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
 			ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 	    }
 	}
@@ -44170,7 +43926,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	            if(strcmp(mail, "None", true) == 0)
 	            {
 					GetPlayerIp(playerid, ip, sizeof(ip));
-				    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
+				    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
 					ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 	            }
 	            else
@@ -44184,13 +43940,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if (!CheckAccount(GetName(playerid)))
 		{
 			GetPlayerIp(playerid, ip, sizeof(ip));
-		    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
+		    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
 			ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"회원가입",string, "회원가입", "");
 		}
 		else
 		{
 			GetPlayerIp(playerid, ip, sizeof(ip));
-		    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
+		    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
 			ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 		}
 		return 1;
@@ -44232,7 +43988,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			new ip[100];
 			GetPlayerIp(playerid, ip, sizeof(ip));
-		    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
+		    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
 			ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"회원가입",string, "회원가입", "");
 			return 1;
 		}
@@ -44536,7 +44292,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(PlayerInfo[playerid][pLeader] == 0)
 			{
-				SafeSendClientMessage(playerid, COLOR_GRAD2, ""#C_YELLOW"< ☞ >"#C_WHITE" 팩션의 리더가 아닙니다.");
+				SafeSendClientMessage(playerid, COLOR_GRAD2, ""#C_YELLOW"< ☞ >"#C_WHITE" 당파의 리더가 아닙니다.");
 				return 1;
 			}
 			if(!IsPlayerInAnyVehicle(playerid))
@@ -44556,7 +44312,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						SaveCar(vehicleid);
 						KillTimer(UpdateVehicleTimer[vehicleid]);
 						UpdateVehicleTimer[vehicleid]=SetTimerEx("OnVehicleUpdate",300,true,"i",vehicleid);
-						SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  탑승중인 차량이 팩션차량으로 설정이 완료되었습니다.");
+						SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  탑승중인 차량이 당파차량으로 설정이 완료되었습니다.");
 						return 1;
 					}
 				}
@@ -46053,7 +45809,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			{
 				new ip[100];
 				GetPlayerIp(playerid, ip, sizeof(ip));
-			    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
+			    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"사용 하실 비밀번호 8자리를 입력후 회원가입을 눌러주세요.", PlayerName(playerid), ip);
 				ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"회원가입",string, "회원가입", "");
 				return 1;
 			}
@@ -46061,7 +45817,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			{
 				new ip[100];
 				GetPlayerIp(playerid, ip, sizeof(ip));
-			    format(string,sizeof(string),"{BCE55C}Univesal Role Play"#C_WHITE"\n\n{B7F0B1}[UNRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
+			    format(string,sizeof(string),"{BCE55C}United States Role Play"#C_WHITE"\n\n{B7F0B1}[USRPG]    [%s]\n\n{FFE08C}IP 주소: %s\n\n"#C_YELLOW"설정 했던 비밀번호 8자리를 입력 후 로그인을 눌러주세요.", PlayerName(playerid), ip);
 				ShowPlayerDialog(playerid, DIALOG_25, DIALOG_STYLE_PASSWORD, ""#C_BLUE"로그인",string, "로그인", "");
 				return 1;
 			}
@@ -47735,11 +47491,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			{
 			 	if(PlayerInfo[playerid][pMember] == 0 && PlayerInfo[playerid][pLeader] == 0)
 				{
-					SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE" 당신은 팩션에 가입되어있지 않습니다.");
+					SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE" 당신은 당파에 가입되어있지 않습니다.");
 					return 1;
 				}
 				PlayerInfo[playerid][pRespawntype] = 1;
-				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE" 다음 스폰시 팩션 스폰 위치에서 리스폰됩니다.");
+				SafeSendClientMessage(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE" 다음 스폰시 당파 스폰 위치에서 리스폰됩니다.");
 			}
     		if(listitem == 2)
 			{
@@ -47940,7 +47696,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					return 1;
 				}
 				if(UsedCheckpoint(playerid))
-				{
+			{
 					SCM(playerid, COLOR_YELLOW, "< ☞ >"#C_WHITE"  이미 체크포인트를 사용 중 입니다.");
 					return 1;
 			    }
@@ -48210,7 +47966,7 @@ public IPPlayer(playerid)
 //플레이어업데이트
 public OnPlayerUpdate(playerid)
 {
-	new weaponid = GetPlayerWeapon(playerid);
+
 	new vehicleid = GetPlayerVehicleID(playerid);
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
 	{
@@ -48229,20 +47985,6 @@ public OnPlayerUpdate(playerid)
   			}
   		}
   	}
-  	
-  	if (weaponid > 0) // 무기핵
-	{
-	    if (WeaponHack[playerid][weaponid] == false)
-	    {
-		    new string[128];
-			ResetPlayerWeapons(playerid);
-			format(string, sizeof(string), "%s 님이 무기핵을 사용하여 자동으로 서비스 블럭 처리 되었습니다.", PlayerNameEx(playerid));
-			SendClientMessageToAll(0xFC595AFF, string);
-			format(string, sizeof(string),"%s 가 서비스 블럭처리 되었습니다. [사유: 무기핵사용]", PlayerName(playerid));
-			SendClientMessageToAll(COLOR_RED, string);
-			BanEx(playerid, "무기핵사용");
-		}
-	}
   	
   	// 네임태그
 	new chstring[256], info[128];
@@ -49400,7 +49142,6 @@ public ResetPlayerVariable2(playerid)
 	PlayerInfo[playerid][pChar] = 0;
 	PlayerInfo[playerid][pAdminSave] = 0;
 	PlayerInfo[playerid][pQnfRhc] = 0;
-	PlayerInfo[playerid][pAttach] = 0;
 	PlayerInfo[playerid][pFishSkill] = 0;
 	PlayerInfo[playerid][pDntks] = 0;
 	PlayerInfo[playerid][pArmour] = 0.0;
@@ -55480,10 +55221,6 @@ public FastTimer()
 	#undef playerid
 }
 
-/*======================================*/
-/* United States Role Play By. Leehi */
-/*======================================*/
-
 LoopingAnim(playerid,animlib[],animname[], Float:Speed, looping, lockx, locky, lockz, lp)
 {
     ApplyAnimation(playerid, animlib, animname, Speed, looping, lockx, locky, lockz, lp,1);
@@ -55882,3 +55619,4 @@ private:StopStreamedMusic(playerid, var[])
 	else
 	    Audio_Stop(playerid, GetPVarInt(playerid, var));
 }
+
