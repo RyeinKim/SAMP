@@ -19,11 +19,11 @@ public carspamming(playerid)
     carspam[playerid] --;
     if(carspam[playerid] > 10)
     {
-        new string[128], Name[MAX_PLAYER_NAME];
-        GetPlayerName(playerid, Name, sizeof(Name));
-        format(string, sizeof(bibi), "System: %s Anit Car Spam 에 의해 자동으로 밴됩니다.", Name);
+        new string[128], PlayerName[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, PlayerName, sizeof(PlayerName));
+        format(string, sizeof(carspam), "System: %s Anit Car Spam 에 의해 자동으로 밴됩니다.", PlayerName);
         SendClientMessageToAll(-1, string);
-        Ban(playerid);
+        BanEx(playerid, "");
     }
     return 1;
 }

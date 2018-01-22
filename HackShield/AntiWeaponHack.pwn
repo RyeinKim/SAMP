@@ -1,9 +1,11 @@
 /*==================================================================================*/
 /*                              Made By. Leehi                                      */
 /*==================================================================================*/
-#include <a.samp>
+#include <a_samp>
+#define WEAPON_HACK 46
 /*======================new, forward========================*/
 new bool:WeaponHack[MAX_PLAYERS][WEAPON_HACK];
+forward SafeGivePlayerWeapon(playerid, weaponid, ammo);
 /*==========================================================*/
 
 public OnPlayerConnect(playerid)
@@ -17,23 +19,18 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerUpdate(playerid)
 {
+	new PlayerName[128];
     new weaponid = GetPlayerWeapon(playerid);
-    new vehicleid = GetPlayerVehicleID(playerid);
 	if (weaponid > 0)
 	{
 	    if (WeaponHack[playerid][weaponid] == false)
 	    {
 		    new string[128];
+			GetPlayerName(playerid, PlayerName, sizeof(PlayerName));
 			ResetPlayerWeapons(playerid);
-			format(string, sizeof(string), "%s 님이 무기핵을 사용하여 자동으로 서비스 블럭 처리 되었습니다.", PlayerName(playerid)); // use hack: server msg
-			SendClientMessageToAll(0xFC595AFF, string);
-			new bquery[200], IP[16];
-			format(bquery, sizeof(bquery),"INSERT INTO hackdata(player, reason, IP, banned) VALUES('%s', '무기핵사용','%s', 1)", PlayerName(playerid), IP);
-			mysql_query(bquery);
-			format(string, sizeof(string),"%s 가 서비스 블럭처리 되었습니다. [사유: 무기핵사용]", PlayerName(playerid)); // usehack: server msg
+			format(string, sizeof(string),"%s (%d) 가 서비스 블럭처리 되었습니다. [사유: 무기핵사용]", PlayerName, playerid); // usehack: server msg
 			SendClientMessageToAll(0xFF0000FF, string);
-			mysql_free_result();
-			Kick(playerid);
+			BanEx(playerid, "무기핵사용");
 		}
 	}
 	return 1;
@@ -41,7 +38,6 @@ public OnPlayerUpdate(playerid)
 
 public SafeGivePlayerWeapon(playerid, weaponid, ammo)
 {
-	GWeapon[playerid] = 5;
 	WeaponHack[playerid][weaponid] = true;
 	if (GetPlayerWeapon(playerid) == weaponid)
 	{
